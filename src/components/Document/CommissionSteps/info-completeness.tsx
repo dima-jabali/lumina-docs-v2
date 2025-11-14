@@ -373,7 +373,7 @@ export function InfoCompleteness() {
 						</Card>
 					</motion.div>
 
-					<motion.div {...ANIMATION_PROPS}>
+					{allMissingDetails.length > 0 ?<motion.div {...ANIMATION_PROPS}>
 						<Separator className="col-span-2 my-4" />
 
 						<div className="flex flex-col col-span-2">
@@ -429,7 +429,7 @@ export function InfoCompleteness() {
 								))}
 							</ul>
 						</div>
-					</motion.div>
+					</motion.div>:null}
 				</div>
 			</AnimatePresence>
 		</>
