@@ -63,7 +63,9 @@ const getMissingInformationDetails = (
 	docType: SupportedDocTypes,
 	documentTypes: Array<DocumentType>,
 ): MissingDocInfo[] => {
-	return [];
+	if (1) {
+		return [];
+	}
 
 	const docSchema = documentTypes.find((d) => d.id === docType);
 
@@ -197,7 +199,9 @@ const getMissingDocumentDetails = (
 	docType: SupportedDocTypes,
 	applicationList: LuminaDocsContextType["applicationList"],
 ): MissingDocInfo[] => {
-	return [];
+	if (1) {
+		return [];
+	}
 
 	const application = applicationList.find((app) => app.id === docType);
 
