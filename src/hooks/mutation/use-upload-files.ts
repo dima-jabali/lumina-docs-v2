@@ -1,3 +1,5 @@
+"use client";
+
 import {
 	MutationObserverOptions,
 	useMutation,
@@ -5,6 +7,7 @@ import {
 	type QueryFilters,
 } from "@tanstack/react-query";
 import axios from "axios";
+
 import { queryKeys } from "../queryKeys";
 import { clientToNextApi } from "@/api";
 import type { Document } from "@/types/document";

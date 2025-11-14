@@ -21,7 +21,9 @@ interface ApplicationsMissingDocsChartProps {
 
 export function MissingDocsChart({
 	item,
-}: { item: DashboardItem<ApplicationsMissingDocsChartProps> }) {
+}: {
+	item: DashboardItem<ApplicationsMissingDocsChartProps>;
+}) {
 	return (
 		<Card className="border border-border-smooth/40 shadow-sm shadow-border-smooth/30 [grid-column:span_1] justify-between">
 			<CardHeader>

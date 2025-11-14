@@ -77,3 +77,12 @@ export const FADE_IN_MOTION_ANIMATION_PROPS = {
 		delay: 0.4,
 	},
 } as const;
+
+export const formattedDate = new Intl.DateTimeFormat("en-US", {
+	month: "short", // 'Oct'
+	day: "numeric", // '28'
+	year: "numeric", // '2024'
+	hour: "numeric", // '2' (or '14' if hour12 is false/omitted)
+	minute: "2-digit", // '15'
+	hour12: true, // 'PM'
+});

@@ -18,7 +18,9 @@ interface RegionRiskData {
 
 export function MortgageLoanRiskExposureByRegion({
 	item,
-}: { item: DashboardItem }) {
+}: {
+	item: DashboardItem;
+}) {
 	return (
 		<Card className="border border-border-smooth/40 shadow-sm shadow-border-smooth/30 [grid-column:span_2] @2xl:[grid-column:span_1] justify-between">
 			<CardHeader>

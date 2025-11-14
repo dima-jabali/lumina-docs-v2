@@ -41,10 +41,14 @@ export enum ChartType {
 }
 
 export enum SupportedDocTypes {
-	Mortgage = "MORTGAGE_APPLICATIONS",
-	Commission = "COMMISSION",
-	Invoice = "INVOICE",
+	EmploymentVerification = "Employment Verification",
+	BankStatement = "Bank Statement",
+	UtilityBill = "Utility Bill",
+	Commission = "Commission",
+	TaxReturn = "Tax Return",
+	Mortgage = "Mortgage",
+	Invoice = "Invoice",
+	Receipt = "Receipt",
+	Payslip = "Payslip",
 	W2 = "W2",
 }
-
-export const SUPPORTED_DOC_TYPES = Object.values(SupportedDocTypes);

@@ -140,18 +140,12 @@ export function UploadPage() {
 					}));
 
 					return {
-						documentTypes: prev.documentTypes.map((t) =>
-							t.name === lastDocType.name
-								? { ...t, documentCount: t.documentCount + 1 }
-								: t,
-						),
-
 						documents: [
 							...prev.documents,
 							{
 								id: file.id,
 								fileName: file.file.name,
-								documentType: lastDocType.name,
+								documentType: lastDocType.id,
 								uploadedAt: new Date().toISOString(),
 								status: "pending",
 								confidence: getRandomFloat(0.9, 1),
@@ -198,7 +192,10 @@ export function UploadPage() {
 	};
 
 	function handleReviewFile(fileId: string) {
-		globalStore.setState({ fileInReview: fileId, adminTab: AdminTab.ReviewQueue });
+		globalStore.setState({
+			fileInReview: fileId,
+			adminTab: AdminTab.ReviewQueue,
+		});
 	}
 
 	return (
@@ -214,7 +211,7 @@ export function UploadPage() {
 				</div>
 			</header>
 
-<div className="block simple-scrollbar max-h-[calc(100vh-130px)] max-w-full p-6 pt-2">
+			<div className="block simple-scrollbar max-h-[calc(100vh-130px)] max-w-full p-6 pt-2">
 				<div className="w-full space-y-6">
 					{/* Document Type Selection */}
 					<Card>
@@ -230,7 +227,7 @@ export function UploadPage() {
 									<SelectContent>
 										{documentTypes.map((type) => (
 											<SelectItem key={type.id} value={type.id}>
-												{type.name}
+												{type.id}
 											</SelectItem>
 										))}
 									</SelectContent>
@@ -327,7 +324,7 @@ export function UploadPage() {
 																<p className="text-xs text-muted-foreground">
 																	{(file.file.size / 1024 / 1024).toFixed(2)} MB
 																	{file.documentType &&
-																		` • ${documentTypes.find((t) => t.id === file.documentType)?.name}`}
+																		` • ${documentTypes.find((t) => t.id === file.documentType)?.id}`}
 																</p>
 															</div>
 

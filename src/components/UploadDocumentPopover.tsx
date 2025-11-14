@@ -149,7 +149,7 @@ const Content: React.FC<{
 
 	return (
 		<>
-			<DialogHeader className="font-bold text-xl">
+			<DialogHeader className="font-bold text-xl whitespace-nowrap min-w-fit">
 				Upload documents
 			</DialogHeader>
 

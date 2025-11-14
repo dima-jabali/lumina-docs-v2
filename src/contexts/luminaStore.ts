@@ -13,12 +13,13 @@ import type {
 	DocumentUuid,
 	MortgageFields,
 } from "@/types/document";
+import { type ChartType, SupportedDocTypes, View } from "@/types/general-enums";
 import {
-	type ChartType,
-	type SupportedDocTypes,
-	View,
-} from "@/types/general-enums";
-import type { Message, OrganizationUuid } from "@/types/organization";
+	createISODate,
+	createMessageUuid,
+	type Message,
+	type OrganizationUuid,
+} from "@/types/organization";
 import { create } from "zustand";
 import { subscribeWithSelector } from "zustand/middleware";
 import { createReactSelectors } from "./createZustandProvider";
@@ -83,44 +84,46 @@ export type LuminaDocsContextType = {
 	dashboardList: Array<DashboardProject>;
 	dashboardChatMessages: Array<Message>;
 	isStreaming: boolean;
+	isChatOpen: boolean;
 
 	applicationList: Array<Application>;
 	documentTypes: Array<DocumentType>;
 	documents: Array<Document_V2>;
 	fileInReview: string | null;
 	adminTab: AdminTab;
+
+	emailThreadChatMessages: Array<Message> | null;
 };
 
-type SchemaField = {
+export type SchemaField = {
 	type: "string" | "number" | "date" | "boolean";
 	required: boolean;
 	name: string;
 };
 
 export type DocumentType = {
-	documentCount: number;
+	id: SupportedDocTypes;
 	description: string;
-	fieldCount: number;
-	name: string;
-	id: string;
 	schema: {
 		fields: SchemaField[];
 	};
 };
 
 export type Application = {
+	documentTypesId: Array<SupportedDocTypes>;
 	validationRules: ValidationRule[];
-	documentTypes: string[];
 	description: string;
 	createdAt: string;
-	name: string;
 	id: string;
 };
 
-type ValidationRule = {
+export type ValidationRule = {
 	type: "field" | "document" | "application";
+	documentTypeId?: SupportedDocTypes;
+	chatMessages?: Array<Message>;
+	conditionNotMet: string;
+	documentField?: string;
 	description: string;
-	condition: string;
 	name: string;
 	id: string;
 };
@@ -133,27 +136,33 @@ const globalStoreBase = create(
 		organizationUuid:
 			"dbe0f417-2d39-4bb8-b74c-12b023aae761" as OrganizationUuid,
 
+		docType: SupportedDocTypes.Mortgage,
 		fileMetadataUuid: null,
 		view: View.TableOfDocs,
 		isStreaming: false,
-		columnFilters: [],
-		docType: null,
+		columnFilters: [
+			{
+				value: SupportedDocTypes.Mortgage,
+				id: "file_type",
+			},
+		],
 
+		emailThreadChatMessages: null,
 		dashboardChatMessages: [],
 		dashboardList: [],
+		isChatOpen: false,
 
 		fileInReview: null,
 		adminTab: AdminTab.Applications,
 		applicationList: [
 			{
-				id: "1",
-				name: "Mortgage Application",
+				id: SupportedDocTypes.Mortgage,
 				description: "Mortgage loan processing with document validation",
-				documentTypes: [
-					"Bank Statement",
-					"Payslip",
-					"Tax Return",
-					"Utility Bill",
+				documentTypesId: [
+					SupportedDocTypes.EmploymentVerification,
+					SupportedDocTypes.Payslip,
+					SupportedDocTypes.TaxReturn,
+					SupportedDocTypes.UtilityBill,
 				],
 				validationRules: [
 					{
@@ -161,7 +170,7 @@ const globalStoreBase = create(
 						name: "Payslip Currency",
 						description: "Payslip must be current as of last 3 months",
 						type: "document",
-						condition: "statementDate >= now - 90 days",
+						conditionNotMet: "Ask for a payslip from last 3 months",
 					},
 					{
 						id: "r2",
@@ -169,30 +178,136 @@ const globalStoreBase = create(
 						description:
 							"Utility bill address must match bank statement address",
 						type: "application",
-						condition: "utilityBill.address == bankStatement.address",
+						conditionNotMet: "Ask for a utility bill with matching address",
+						missing: true,
+						chatMessages: [
+							{
+								sender: "bot",
+								showFooter: true,
+								showSender: true,
+								createdAt: "2025-11-14T10:00:00.000Z",
+								toggleText: "",
+								statusIndex: 0,
+								statuses: [{ status: "success" }],
+								uuid: "msg-001",
+								text: "**Action Required: Address Mismatch Found**\n\nWe have reviewed the utility bill you submitted for proof of address. The address listed on the document (`123 Elm St, Apt 2B`) does not match the address on your ID (`456 Oak Ave, Unit 1A`).\n\nTo proceed with your application, please provide one of the following:\n1. A different valid Proof of Address document that clearly shows your ID address (`456 Oak Ave, Unit 1A`).\n2. Confirmation of which address is the current, correct one.",
+							},
+							// 2. User replies they don't have another utility document (User to Bot)
+							{
+								sender: "user",
+								showFooter: true,
+								showSender: true,
+								createdAt: "2025-11-14T10:15:00.000Z",
+								toggleText: "",
+								statusIndex: 0,
+								statuses: [{ status: "hidden" }],
+								uuid: "msg-002",
+								text: "Hi, I don't have another utility bill right now that shows the 456 Oak Ave address. The ID address is the correct one. What other documents can I use? I can't wait for a new utility bill to be generated.",
+							},
+							// 3. Agent asks which address is correct and lists alternatives (Bot to User)
+							{
+								sender: "bot",
+								showFooter: true,
+								showSender: true,
+								createdAt: "2025-11-14T10:30:00.000Z",
+								toggleText: "",
+								statusIndex: 0,
+								statuses: [{ status: "hidden" }],
+								uuid: "msg-003",
+								text: "Thank you for confirming that **456 Oak Ave, Unit 1A** is your correct current address. \n\nSince you don't have another utility bill, here is a list of alternative Proof of Address documents we can accept, provided they are dated within the last 90 days and show your name and the correct address:\n\n* Bank or Credit Card Statement\n* Lease Agreement or Mortgage Statement\n* **Hospital or Medical Bill**\n* Government-issued tax document\n\nPlease upload one of these alternatives showing the address **456 Oak Ave, Unit 1A** to continue.",
+							},
+							// 4. User submits hospital bill (User to Bot - simulating upload confirmation)
+							{
+								sender: "user",
+								showFooter: true,
+								showSender: true,
+								createdAt: "2025-11-14T11:05:00.000Z",
+								toggleText: "",
+								statusIndex: 0,
+								statuses: [{ status: "hidden" }],
+								uuid: "msg-004",
+								text: "I have uploaded a hospital bill dated last month. It clearly shows my name and the 456 Oak Ave, Unit 1A address.",
+							},
+							// 5. Agent marks as complete and correct (Bot to User)
+							{
+								sender: "bot",
+								showFooter: true,
+								showSender: true,
+								createdAt: "2025-11-14T11:20:00.000Z",
+								toggleText: "",
+								statusIndex: 0,
+								statuses: [{ status: "hidden" }],
+								uuid: "msg-005",
+								text: "**Verification Complete!**\n\nWe have reviewed the hospital bill. The document is accepted and successfully confirms your address as **456 Oak Ave, Unit 1A**. \n\nThis verification step is now **complete and correct**. We will proceed with the next steps of your application.",
+							},
+						],
 					},
 					{
 						id: "r3",
 						name: "Required Documents",
 						description: "All required documents must be submitted",
 						type: "application",
-						condition: "bankStatement AND payslip AND utilityBill",
+						conditionNotMet: "Ask for all required documents",
+						chatMessages: [
+							{
+								sender: "bot",
+								showFooter: true,
+								showSender: true,
+								createdAt: createISODate(),
+								toggleText: "",
+								statusIndex: 0,
+								statuses: [{ status: "success" as const }],
+								uuid: createMessageUuid(),
+								text: "## 🚨 Missing Required Document\n\nI've detected that the **Utility Bill (Proof of Billing)** is missing from your submitted documents for the Mortgage Application. \n\n**Action Required:** Please upload a recent Utility Bill (dated within the last 90 days) to verify the property address and residency.",
+								type: "email",
+							},
+
+							// --- Message 2: Bot provides a brief summary/next step ---
+							{
+								sender: "bot",
+								showFooter: false,
+								showSender: true,
+								createdAt: createISODate(),
+								toggleText: "",
+								statusIndex: 0,
+								statuses: [{ status: "success" as const }],
+								uuid: createMessageUuid(),
+								text: "Once uploaded, our system will automatically process the document and check for address consistency.",
+								type: "email",
+							},
+
+							// --- Message 3: User acknowledges the request (simulated user response) ---
+							{
+								sender: "user",
+								showFooter: false,
+								showSender: true,
+								createdAt: createISODate(),
+								toggleText: "",
+								statusIndex: 0,
+								statuses: [{ status: "success" as const }],
+								uuid: createMessageUuid(),
+								text: "Got it. I'll upload the latest utility bill now. Thanks for the prompt notification!",
+								type: "email",
+							},
+						],
 					},
 				],
 				createdAt: "2024-01-10",
 			},
 			{
-				id: "2",
-				name: "Employment Verification",
+				id: SupportedDocTypes.EmploymentVerification,
 				description: "Employment verification application",
-				documentTypes: ["Employment Letter", "Payslip"],
+				documentTypesId: [
+					SupportedDocTypes.EmploymentVerification,
+					SupportedDocTypes.Payslip,
+				],
 				validationRules: [
 					{
 						id: "r4",
 						name: "Recent Employment",
 						description: "Employment letter must be recent",
 						type: "document",
-						condition: "issuanceDate >= now - 30 days",
+						conditionNotMet: "Ask for a recent employment letter",
 					},
 				],
 				createdAt: "2024-01-12",
@@ -200,11 +315,27 @@ const globalStoreBase = create(
 		],
 		documentTypes: [
 			{
-				id: "1",
-				name: "Invoice",
+				id: SupportedDocTypes.Mortgage,
+				description:
+					"Official document submitted to a lender requesting a loan secured by real property.",
+				schema: {
+					fields: [
+						{ name: "contractor_name", type: "string", required: true },
+						{ name: "date_issued", type: "date", required: true },
+						{ name: "document_type", type: "string", required: true },
+						{ name: "estimated_cost", type: "number", required: true },
+						{ name: "expiry_date", type: "date", required: true },
+						{ name: "file_name", type: "string", required: true },
+						{ name: "owner_full_name", type: "number", required: false }, // Often determined later
+						{ name: "permit_number", type: "string", required: true },
+						{ name: "project_location", type: "number", required: true },
+						{ name: "project_name", type: "string", required: true },
+					],
+				},
+			},
+			{
+				id: SupportedDocTypes.Invoice,
 				description: "Standard invoice documents with line items",
-				fieldCount: 8,
-				documentCount: 142,
 				schema: {
 					fields: [
 						{ name: "invoiceNumber", type: "string", required: true },
@@ -219,11 +350,8 @@ const globalStoreBase = create(
 				},
 			},
 			{
-				id: "2",
-				name: "Bank Statement",
+				id: SupportedDocTypes.BankStatement,
 				description: "Monthly bank statements and transaction records",
-				fieldCount: 6,
-				documentCount: 89,
 				schema: {
 					fields: [
 						{ name: "accountNumber", type: "string", required: true },
@@ -236,11 +364,8 @@ const globalStoreBase = create(
 				},
 			},
 			{
-				id: "3",
-				name: "Receipt",
+				id: SupportedDocTypes.Receipt,
 				description: "Purchase receipts and proof of payment",
-				fieldCount: 5,
-				documentCount: 267,
 				schema: {
 					fields: [
 						{ name: "receiptNumber", type: "string", required: true },
@@ -248,6 +373,74 @@ const globalStoreBase = create(
 						{ name: "total", type: "number", required: true },
 						{ name: "merchant", type: "string", required: true },
 						{ name: "paymentMethod", type: "string", required: false },
+					],
+				},
+			},
+			{
+				id: SupportedDocTypes.Payslip,
+				description:
+					"Detailed breakdown of an employee's earnings, deductions, and net pay for a specific period.",
+				schema: {
+					fields: [
+						{ name: "employeeName", type: "string", required: true },
+						{ name: "payPeriodStart", type: "date", required: true },
+						{ name: "payPeriodEnd", type: "date", required: true },
+						{ name: "paymentDate", type: "date", required: true },
+						{ name: "grossPay", type: "number", required: true },
+						{ name: "netPay", type: "number", required: true },
+						{ name: "totalDeductions", type: "number", required: true },
+						{ name: "employerName", type: "string", required: true },
+						{ name: "employeeId", type: "string", required: false },
+						{ name: "taxYear", type: "number", required: true },
+					],
+				},
+			},
+			{
+				id: SupportedDocTypes.TaxReturn,
+				description:
+					"Official declaration of income, expenses, and tax owed to a governing tax authority.",
+				schema: {
+					fields: [
+						{ name: "taxYear", type: "number", required: true },
+						{ name: "submissionDate", type: "date", required: true },
+						{ name: "taxpayerId", type: "string", required: true },
+						{ name: "totalIncome", type: "number", required: true },
+						{ name: "taxOwed", type: "number", required: true },
+						{ name: "taxRefund", type: "number", required: false }, // Could be zero
+						{ name: "filingStatus", type: "string", required: true }, // e.g., 'Single', 'Married Filing Jointly'
+						{ name: "authority", type: "string", required: true }, // e.g., 'IRS', 'HMRC'
+					],
+				},
+			},
+			{
+				id: SupportedDocTypes.UtilityBill,
+				description:
+					"Statement for consumption of services like electricity, water, or gas.",
+				schema: {
+					fields: [
+						{ name: "accountNumber", type: "string", required: true },
+						{ name: "billingPeriodStart", type: "date", required: true },
+						{ name: "billingPeriodEnd", type: "date", required: true },
+						{ name: "issueDate", type: "date", required: true },
+						{ name: "dueDate", type: "date", required: true },
+						{ name: "totalAmount", type: "number", required: true },
+						{ name: "serviceType", type: "string", required: true }, // e.g., 'Electricity', 'Water', 'Gas'
+						{ name: "utilityProvider", type: "string", required: true },
+					],
+				},
+			},
+			{
+				id: SupportedDocTypes.EmploymentVerification,
+				description:
+					"Formal letter confirming an individual's employment status, position, and salary.",
+				schema: {
+					fields: [
+						{ name: "issueDate", type: "date", required: true },
+						{ name: "employeeName", type: "string", required: true },
+						{ name: "jobTitle", type: "string", required: true },
+						{ name: "startDate", type: "date", required: true },
+						{ name: "annualSalary", type: "number", required: false }, // Sometimes excluded
+						{ name: "signerTitle", type: "string", required: true },
 					],
 				},
 			},
@@ -358,18 +551,18 @@ export const useDocType = () => {
 };
 
 export function useWithFileInReview() {
-	  const fileInReview = globalStore.use.fileInReview();
-  const documents = globalStore.use.documents();
-  const document = documents.find(d => d.id === fileInReview);
+	const fileInReview = globalStore.use.fileInReview();
+	const documents = globalStore.use.documents();
+	const document = documents.find((d) => d.id === fileInReview);
 
 	if (!document) {
 		console.log("Document not found in useWithFileInReview", {
 			fileInReview,
 			documents,
 		});
-		
+
 		throw new Error("Document not found in useWithFileInReview");
 	}
-	
+
 	return document;
 }

@@ -145,7 +145,9 @@ interface AverageDocumentTurnaroundTimeChartProps {
 
 export function DocumentTurnaroundTimeChart({
 	item,
-}: { item: DashboardItem<AverageDocumentTurnaroundTimeChartProps> }) {
+}: {
+	item: DashboardItem<AverageDocumentTurnaroundTimeChartProps>;
+}) {
 	// Process raw input data to get BoxPlotStats
 	const processedBoxPlots: BoxPlotStats[] = fakeDocumentTurnaroundData
 		.map((item) => {

@@ -48,7 +48,10 @@ export const GridHeader: React.FC = () => {
 						))}
 					</TabsList>
 
-					<Portal.Root className="h-full max-h-full overflow-hidden" container={mainGridElementContainer}>
+					<Portal.Root
+						className="h-full max-h-full overflow-hidden"
+						container={mainGridElementContainer}
+					>
 						<TabsContent
 							className="m-0 focus-visible:ring-transparent outline-hidden focus-visible:ring-offset-transparent max-h-full"
 							value={LuminaDocsTab.FilesTable}

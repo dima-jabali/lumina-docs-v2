@@ -21,7 +21,7 @@ import { ChartContainer } from "@/components/ui/chart";
 import { Separator } from "@/components/ui/separator";
 import { SupportedDocTypes } from "@/types/general-enums";
 import { HandleShowChatMessagesWhenVisible } from "../HandleShowChatMessagesWhenVisible";
-import { useDocType } from "@/contexts/luminaStore";
+import { globalStore, useDocType } from "@/contexts/luminaStore";
 
 const ANIMATION_PROPS = {
 	initial: { opacity: 0, y: "20%" },
@@ -42,6 +42,11 @@ export function InformationCompleteness() {
 			: docType === SupportedDocTypes.Commission
 				? [{ totalDocs: 9, present: 8, fill: "var(--chart-4)" }]
 				: [{ totalDocs: 33, present: 32, fill: "var(--chart-4)" }];
+
+	const applicationList = globalStore.use.applicationList();
+	const documentTypes = globalStore.use.documentTypes();
+
+	console.log({ docType, applicationList, documentTypes });
 
 	return (
 		<>

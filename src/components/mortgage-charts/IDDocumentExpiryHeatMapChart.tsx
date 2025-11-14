@@ -106,7 +106,9 @@ const transformDataForGroupedBarChart = (
  */
 export function IDDocumentExpiryHeatMapChart({
 	item,
-}: { item: DashboardItem }) {
+}: {
+	item: DashboardItem;
+}) {
 	const flatData = generateFakeExpiryData();
 	const data = transformDataForGroupedBarChart(flatData);
 	const years = Array.from(new Set(flatData.map((d) => d.year))).sort(

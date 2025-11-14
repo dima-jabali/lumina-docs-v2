@@ -1,3 +1,5 @@
+"use client";
+
 import { Download } from "lucide-react";
 import { memo, useState } from "react";
 import { toast } from "sonner";

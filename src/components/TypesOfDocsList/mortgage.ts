@@ -4,15 +4,6 @@ export const MORTGAGE_FILE_METADATA_STEPS = {
 	categories: [],
 	steps: [
 		{
-			step: 1,
-			description: "",
-			title: "Field Validation",
-			isCompleted: true,
-			isAutomated: false,
-			currentSubStep: -1,
-			dealsWithSubFiles: true,
-		},
-		{
 			step: 2,
 			description: "",
 			title: "Information Completeness",

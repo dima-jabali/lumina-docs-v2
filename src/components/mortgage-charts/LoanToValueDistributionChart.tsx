@@ -80,7 +80,9 @@ const generateFakeLTVData = (): LTVBinData[] => {
  */
 export function LoanToValueDistributionChart({
 	item,
-}: { item: DashboardItem }) {
+}: {
+	item: DashboardItem;
+}) {
 	const data = generateFakeLTVData();
 
 	return (

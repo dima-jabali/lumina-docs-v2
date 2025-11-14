@@ -24,12 +24,9 @@ export const StatusCell: React.FC<TableCellProps> = memo(function StatusCell({
 	const status = cell.getValue() as GeneralIndexStatus | null;
 
 	return (
-		<div
-			className="relative items-center justify-start w-full p-4 border-x-border-smooth flex flex-wrap gap-1 h-full font-normal capitalize text-sm"
-		>
+		<div className="relative items-center justify-start w-full p-4 border-x-border-smooth flex flex-wrap gap-1 h-full font-normal capitalize text-sm">
 			<Badge className={matchStatusClassName(status)}>
-
-			{titleCase(status?.toLowerCase() ?? "")}
+				{titleCase(status?.toLowerCase() ?? "")}
 			</Badge>
 		</div>
 	);

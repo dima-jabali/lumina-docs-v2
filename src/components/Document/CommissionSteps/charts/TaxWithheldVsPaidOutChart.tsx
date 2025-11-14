@@ -22,7 +22,9 @@ interface TaxComplianceData {
 
 export function TaxWithheldVsPaidOutChart({
 	item,
-}: { item: DashboardItem<Array<TaxComplianceData>> }) {
+}: {
+	item: DashboardItem<Array<TaxComplianceData>>;
+}) {
 	// Pre-process data to calculate the 'remaining' amount
 	const chartData = fakeTaxComplianceData.map((item) => ({
 		...item,

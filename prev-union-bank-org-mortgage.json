@@ -1,0 +1,317 @@
+[
+	{
+		"step": 1,
+		"description": "",
+		"title": "Field Validation",
+		"isCompleted": true,
+		"isAutomated": false,
+		"currentSubStep": -1,
+		"dealsWithSubFiles": true,
+		"subSteps": [],
+		"chatMessages": []
+	},
+	{
+		"step": 2,
+		"description": "",
+		"title": "Information Completeness",
+		"isCompleted": true,
+		"isAutomated": false,
+		"dealsWithSubFiles": false,
+		"currentSubStep": -1,
+		"subSteps": [],
+		"chatMessages": [
+			{
+				"text": "Excellent! Now that we have a few documents, here's my plan to calculate the overall information completeness:\\n\\n• Identify Document Set: First, I'll recognize and categorize all the documents provided (e.g., Payroll Bank Statement, Real Estate Appraisal Report, BIR Form 2316, Payslip, TIN Card).\\n\\n• Define Required Fields per Document Type: For each distinct document type, I'll reference its specific set of critical fields that need to be extracted for completeness.\\n\\n• Perform Individual Document Extraction & Validation: I will run the extraction and validation process for each document independently, just as we discussed for the TIN card. This includes OCR, NLP, presence checks, and format validation.\\n\\n• Consolidate Extracted Data: All successfully extracted and validated data from each document will be gathered into a central data profile for the entire set.\\n\\n• Identify Cross-Document Dependencies: I'll look for information that should be consistent across documents (e.g., the employee's name and TIN should match on the Payslip, BIR Form 2316, and TIN Card).\\n\\n• Calculate Individual Document Completeness Scores: A completeness score will be generated for each document based on its internal field validation.\\n\\n• Calculate Overall Completeness Score: An aggregate completeness score will be calculated for the entire document set, taking into account both individual document completeness and cross-document consistency.\\n\\n• Highlight Discrepancies and Missing Documents: Any information gaps, inconsistencies between documents, or entirely missing expected documents will be flagged.\\n\\n• Provide Detailed Report & Actionable Insights: Finally, I'll present a summary of completeness, pointing out specific areas that require user attention or additional information, to streamline your processing.\\n\\n\\n\\nIt looks like some critical documents might be missing or incomplete:\\n\\n• Identify Specific Missing Documents: I'll pinpoint exactly which required documents or fields are missing from your submission.\\n\\n• Generate Customized Email Draft: I can automatically draft an email to the applicant, clearly listing the missing documents or information needed.\\n\\n• Include Clear Instructions: The email will contain concise instructions on how the applicant can securely upload or provide the requested information.\\n\\n• Attach Pre-filled Forms (if applicable): For specific missing forms, I can attach partially pre-filled versions to expedite the applicant's completion.\\n\\n• Set a Follow-up Reminder: I can also set an automated reminder to follow up with the applicant if the missing documents aren't received within a specified timeframe.\\n\\n• Offer Direct Communication Options: If you prefer, I can include options for the applicant to contact you directly if they have questions or need assistance.",
+				"statuses": [
+					{
+						"status": "streaming"
+					},
+					{
+						"status": "success"
+					}
+				],
+				"createdAt": "2025-06-18T06:04:40.374Z",
+				"uuid": "0ce42ae2-93dc-4b73-8a13-cf780e46ca6b",
+				"showFooter": false,
+				"showSender": true,
+				"sender": "steps",
+				"statusIndex": 0,
+				"toggleText": "Calculating Information Completeness"
+			},
+			{
+				"text": "Would you like me to automatically send the email requesting the missing documents?",
+				"statuses": [
+					{
+						"status": "hidden"
+					},
+					{
+						"status": "streaming"
+					},
+					{
+						"status": "success"
+					}
+				],
+				"createdAt": "2025-06-18T06:04:40.374Z",
+				"uuid": "111b2d0b-22ab-4c62-91e6-6c7213a21b11",
+				"sender": "bot",
+				"showSender": false,
+				"showFooter": false,
+				"statusIndex": 0,
+				"toggleText": ""
+			},
+			{
+				"text": "Send email",
+				"statuses": [
+					{
+						"status": "hidden"
+					},
+					{
+						"status": "success"
+					}
+				],
+				"createdAt": "2025-06-18T06:04:40.374Z",
+				"uuid": "3f3a622d-070a-4d91-96d5-a711035fdc87",
+				"sender": "action",
+				"showSender": false,
+				"showFooter": true,
+				"statusIndex": 0,
+				"toggleText": ""
+			}
+		]
+	},
+	{
+		"step": 3,
+		"description": "",
+		"title": "Application Scorecard",
+		"isCompleted": false,
+		"isAutomated": true,
+		"dealsWithSubFiles": false,
+		"currentSubStep": 3,
+		"subSteps": [
+			{
+				"step": 1,
+				"description": "Compute from extracted payslip & existing debt fields",
+				"title": "Debt-to-Income Ratio",
+				"isCompleted": false,
+				"isAutomated": true,
+				"dealsWithSubFiles": false,
+				"currentSubStep": -1,
+				"subSteps": [],
+				"chatMessages": []
+			},
+			{
+				"step": 2,
+				"description": "Appraised value vs. requested loan",
+				"title": "Validate LTV",
+				"isCompleted": false,
+				"isAutomated": true,
+				"dealsWithSubFiles": false,
+				"currentSubStep": -1,
+				"subSteps": [],
+				"chatMessages": []
+			},
+			{
+				"step": 3,
+				"description": "Cross-check declared vs. extracted income",
+				"title": "Fraud score",
+				"isCompleted": false,
+				"dealsWithSubFiles": false,
+				"isAutomated": true,
+				"currentSubStep": -1,
+				"subSteps": [],
+				"chatMessages": []
+			},
+			{
+				"step": 4,
+				"description": "Detect expired IDs or TCT encumbrances",
+				"title": "Red-flag alert",
+				"isCompleted": false,
+				"dealsWithSubFiles": false,
+				"isAutomated": true,
+				"currentSubStep": -1,
+				"subSteps": [],
+				"chatMessages": []
+			}
+		],
+		"chatMessages": [
+			{
+				"text": "Alright, let's dive into the Application Scorecard for this loan application. Below you'll find a comprehensive breakdown of the various factors assessed, each contributing to our overall risk evaluation and decision-making process. This holistic view ensures we consider all critical aspects for a thorough and accurate assessment.\\n\\n• Debt-to-Income Ratio Analysis: Assessed applicant's debt burden relative to income, a key indicator of repayment capacity.\\n\\n• Loan-to-Value Assessment: Evaluated the proposed loan amount against the collateral's value, indicating exposure risk.\\n\\n• Income Stability Score: Analyzed the consistency and predictability of the applicant's income sources.\\n\\n• Employment Tenure Score: Gauged the applicant's stability in their current employment, reflecting job security.\\n\\n• Disposable Income Buffer: Calculated the remaining income after essential expenses, highlighting capacity for loan servicing.\\n\\n• Credit Bureau Score: Integrated external credit data to provide a comprehensive view of the applicant's creditworthiness.\\n\\n• Existing Exposure to Bank: Reviewed the applicant's current financial relationship and outstanding obligations with our institution.\\n\\n• Self-Employed Earnings Trend: Identified patterns and stability in income for self-employed applicants.\\n\\n• OFW Currency Risk Index: Assessed potential foreign exchange rate impacts for Overseas Filipino Worker applicants.\\n\\n• Collateral Marketability Score: Evaluated the ease and speed with which the provided collateral could be liquidated if necessary.\\n\\n• Document Completeness Score: Determined the thoroughness of submitted documentation, indicating application readiness.\\n\\n• Extraction Confidence Score: Measured the reliability of data extracted from applicant documents by automated systems.\\n\\n• KYC/AML Risk Rating: Provided an assessment of the applicant's Know Your Customer and Anti-Money Laundering compliance risk.\\n\\n• Fraud Anomaly Score: Highlighted any unusual patterns or red flags that may indicate potential fraudulent activity.\\n\\n• Real Estate Portfolio Limit Buffer: Checked the applicant's current real estate exposure against internal limits.\\n\\n• Composite Application Risk Index: Provided an overarching risk score by synthesizing all individual assessment parameters.",
+				"statuses": [
+					{
+						"status": "streaming"
+					},
+					{
+						"status": "success"
+					}
+				],
+				"createdAt": "2025-06-18T06:04:40.374Z",
+				"uuid": "cb9e3818-8133-4ff6-995f-3f6e389221a5",
+				"showFooter": false,
+				"showSender": true,
+				"sender": "steps",
+				"statusIndex": 0,
+				"toggleText": "Calculating Scores"
+			},
+			{
+				"text": "Would you like me to escalate this application for manual review?",
+				"statuses": [
+					{
+						"status": "hidden"
+					},
+					{
+						"status": "streaming"
+					},
+					{
+						"status": "success"
+					}
+				],
+				"createdAt": "2025-06-18T06:04:40.374Z",
+				"uuid": "0cc9e681-b3f4-4513-80fc-0a2dd1668d94",
+				"sender": "bot",
+				"showSender": false,
+				"showFooter": false,
+				"statusIndex": 0,
+				"toggleText": ""
+			},
+			{
+				"text": "Escalate for manual review",
+				"statuses": [
+					{
+						"status": "hidden"
+					},
+					{
+						"status": "success"
+					}
+				],
+				"createdAt": "2025-06-18T06:04:40.374Z",
+				"uuid": "a5c2f38f-4510-4976-aafd-c7176b2597fc",
+				"sender": "action",
+				"showSender": false,
+				"showFooter": true,
+				"toggleText": "",
+				"statusIndex": 0
+			}
+		]
+	},
+	{
+		"step": 4,
+		"description": "",
+		"title": "Regulatory compliance",
+		"isCompleted": false,
+		"isAutomated": true,
+		"currentSubStep": 3,
+		"dealsWithSubFiles": false,
+		"subSteps": [
+			{
+				"step": 1,
+				"description": "",
+				"title": "AMLA",
+				"isCompleted": false,
+				"dealsWithSubFiles": false,
+				"isAutomated": true,
+				"currentSubStep": -1,
+				"subSteps": [],
+				"chatMessages": []
+			},
+			{
+				"step": 2,
+				"description": "",
+				"title": "Real-Estate-Portfolio Limit Buffer",
+				"isCompleted": false,
+				"dealsWithSubFiles": false,
+				"isAutomated": true,
+				"currentSubStep": -1,
+				"subSteps": [],
+				"chatMessages": []
+			}
+		],
+		"chatMessages": [
+			{
+				"text": "Alright, let's take a look at the Regulatory Compliance screen. This dashboard provides a comprehensive overview of the bank's adherence to regulatory standards, highlighting key metrics, detected issues, and real-time portfolio insights.\\n\\n• Compliance Overall Score: Displays the current aggregate compliance score, indicating the bank's performance against regulatory benchmarks.\\n\\n• Alerts Overview: Provides a quick summary of high and medium priority alerts requiring immediate attention or further investigation.\\n\\n• Summary Metrics: Offers key operational figures related to compliance activities, including:\\n\\n\\t\\t• Suspicious Transaction Reports (STRs) Generated: The number of reports filed for potentially illicit activities.\\n\\n\\t\\t• Covered Transaction Reports (CTRs) Generated: The count of reports submitted for transactions exceeding predefined thresholds.\\n\\n\\t\\t• Documents Flagged for AMLC Review: The total documents flagged for review by the Anti-Money Laundering Council.\\n\\n• AMLA Compliance Check: Details the status of Anti-Money Laundering Act compliance for specific documents and transactions:\\n\\n\\t\\t• Documents Under Review: Lists relevant documents with their IDs, types, and associated customer/entity names.\\n\\n\\t\\t• Detected Issues: Categorizes identified compliance discrepancies:\\n\\n\\t\\t\\t\\t• Red Flags (Critical): Highlights severe issues such as incomplete KYC, inconsistent transaction behavior, and beneficial owner mismatches that demand urgent resolution.\\n\\n\\t\\t\\t\\t• Warnings (Moderate): Indicates less severe but important issues like unusual transaction volume/frequency or missing supporting documents.\\n\\n\\t\\t• Current Status: Shows the review status of the AMLA compliance check, guiding the next steps.\\n\\n\\t\\t• Actionable Insights: Provides options to view document details, generate necessary reports (STRs, CTRs), or approve the compliance status.\\n\\n• Real Estate Portfolio Limit Buffer: Analyzes the bank's real estate exposure in relation to established limits, supported by:\\n\\n\\t\\t• Current Real Estate Loan Exposure vs. Limit Chart: Visualizes the bank's current loan exposure against its regulatory and internal limits.\\n\\n\\t\\t• Real Estate Stress Test Chart: Presents the results of stress tests, assessing the portfolio's resilience under various market scenarios.",
+				"statuses": [
+					{
+						"status": "streaming"
+					},
+					{
+						"status": "success"
+					}
+				],
+				"createdAt": "2025-06-18T06:04:40.374Z",
+				"uuid": "33058e09-18f5-47af-9420-010007226272",
+				"showFooter": false,
+				"showSender": true,
+				"sender": "steps",
+				"statusIndex": 0,
+				"toggleText": "Calculating Regulatory Compliance"
+			},
+			{
+				"text": "Would you like me to automatically send the email requesting the missing documents? Or escalate compliance for manual review?",
+				"statuses": [
+					{
+						"status": "hidden"
+					},
+					{
+						"status": "streaming"
+					},
+					{
+						"status": "success"
+					}
+				],
+				"createdAt": "2025-06-18T06:04:40.374Z",
+				"uuid": "d97dc98c-578a-420b-b0c3-08317f75be5a",
+				"sender": "bot",
+				"showSender": false,
+				"showFooter": false,
+				"toggleText": "",
+				"statusIndex": 0
+			},
+			{
+				"text": "Send email",
+				"statuses": [
+					{
+						"status": "hidden"
+					},
+					{
+						"status": "success"
+					}
+				],
+				"createdAt": "2025-06-18T06:04:40.374Z",
+				"uuid": "ec5d913c-c004-45b1-b297-21de3bf74a03",
+				"sender": "action",
+				"showSender": false,
+				"showFooter": false,
+				"statusIndex": 0,
+				"toggleText": ""
+			},
+			{
+				"text": "Escalate to manual review",
+				"statuses": [
+					{
+						"status": "hidden"
+					},
+					{
+						"status": "success"
+					}
+				],
+				"createdAt": "2025-06-18T06:04:40.374Z",
+				"uuid": "4df516fb-85eb-4808-82ab-2dc1f9de8b0c",
+				"showSender": false,
+				"showFooter": true,
+				"sender": "action",
+				"toggleText": "",
+				"statusIndex": 0
+			}
+		]
+	},
+	{
+		"step": 5,
+		"description": "",
+		"title": "Underwriter Review",
+		"isCompleted": false,
+		"dealsWithSubFiles": false,
+		"isAutomated": false,
+		"currentSubStep": 3,
+		"subSteps": [],
+		"chatMessages": []
+	}
+]

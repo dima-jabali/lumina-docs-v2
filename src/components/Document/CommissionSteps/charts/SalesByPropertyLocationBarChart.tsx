@@ -22,7 +22,9 @@ interface SalesData {
 
 export function SalesByPropertyLocationBarChart({
 	item,
-}: { item: DashboardItem<Array<SalesData>> }) {
+}: {
+	item: DashboardItem<Array<SalesData>>;
+}) {
 	// Sort data by sales in descending order for better visualization
 	const sortedData = fakeSalesData.sort((a, b) => b.sales - a.sales);
 

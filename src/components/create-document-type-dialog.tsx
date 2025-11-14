@@ -22,22 +22,13 @@ import {
 } from "@/components/ui/select";
 import { Checkbox } from "@/components/ui/checkbox";
 import { useState } from "react";
-
-interface Field {
-	required: boolean;
-	name: string;
-	type: string;
-}
+import type { SupportedDocTypes } from "@/types/general-enums";
+import type { DocumentType, SchemaField } from "@/contexts/luminaStore";
 
 interface CreateDocumentTypeDialogProps {
 	open: boolean;
 	onOpenChange: (open: boolean) => void;
-	onCreateType: (type: {
-		name: string;
-		description: string;
-		fieldCount: number;
-		schema: { fields: Field[] };
-	}) => void;
+	onCreateType: (type: DocumentType) => void;
 }
 
 export function CreateDocumentTypeDialog({
@@ -45,7 +36,7 @@ export function CreateDocumentTypeDialog({
 	onOpenChange,
 	onCreateType,
 }: CreateDocumentTypeDialogProps) {
-	const [fields, setFields] = useState<Field[]>([
+	const [fields, setFields] = useState<SchemaField[]>([
 		{ name: "", type: "string", required: true },
 	]);
 	const [description, setDescription] = useState("");
@@ -61,7 +52,7 @@ export function CreateDocumentTypeDialog({
 
 	const handleFieldChange = (
 		index: number,
-		key: keyof Field,
+		key: keyof SchemaField,
 		value: string | boolean,
 	) => {
 		const newFields = [...fields];
@@ -74,9 +65,8 @@ export function CreateDocumentTypeDialog({
 		if (!name || fields.some((f) => !f.name)) return;
 
 		onCreateType({
-			name,
+			id: name as SupportedDocTypes,
 			description,
-			fieldCount: fields.length,
 			schema: { fields },
 		});
 

@@ -100,7 +100,7 @@ export function Applications() {
 										</div>
 
 										<div>
-											<CardTitle className="text-lg">{app.name}</CardTitle>
+											<CardTitle className="text-lg">{app.id}</CardTitle>
 
 											<CardDescription className="mt-1">
 												{app.description}
@@ -137,17 +137,17 @@ export function Applications() {
 								<div className="flex flex-col gap-4">
 									<div className="space-y-2">
 										<p className="text-sm font-semibold text-foreground">
-											Document Types ({app.documentTypes.length})
+											Document Types ({app.documentTypesId.length})
 										</p>
 
 										<div className="flex flex-wrap gap-2">
-											{app.documentTypes.map((docType) => (
+											{app.documentTypesId.map((docTypeId) => (
 												<Badge
-													key={docType}
 													className="text-primary"
 													variant="secondary"
+													key={docTypeId}
 												>
-													{docType}
+													{docTypeId}
 												</Badge>
 											))}
 										</div>

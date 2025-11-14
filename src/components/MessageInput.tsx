@@ -13,7 +13,7 @@ import {
 	createMessageUuid,
 	type Message,
 } from "@/types/organization";
-import { globalStore } from "@/contexts/luminaStore";
+import { globalStore, useDocType } from "@/contexts/luminaStore";
 
 export const LOAN_RISK_SUBSTRING = "mortgage loan risk";
 export const AMOUNT_SUBSTRING = "amount";
@@ -21,14 +21,71 @@ export const VOLUME_SUBSTRING = "volume";
 
 export function MessageInput({
 	scrollRef,
-}: { scrollRef: React.RefObject<HTMLOListElement | null> }) {
+}: {
+	scrollRef: React.RefObject<HTMLOListElement | null>;
+}) {
+	const emailThreadChatMessages = globalStore.use.emailThreadChatMessages();
+	const applicationList = globalStore.use.applicationList();
 	const isStreaming = globalStore.use.isStreaming();
 	const createMessage = useCreateChatMessage();
 	const [luminaDocsTab] = useLuminaDocsTab();
+	const docType = useDocType()!;
 
 	const inputRef = useRef<HTMLTextAreaElement>(null);
 
 	async function handleSendMessage() {
+		if (emailThreadChatMessages) {
+			const nextMessageIndex = emailThreadChatMessages.findIndex(
+				(email) => email.statuses[email.statusIndex]?.status === "hidden",
+			);
+			if (nextMessageIndex !== -1) {
+				const nextMessage = emailThreadChatMessages[nextMessageIndex]!;
+				const isLastMessage =
+					nextMessageIndex === emailThreadChatMessages.length - 1;
+
+				globalStore.setState({
+					emailThreadChatMessages: [
+						...emailThreadChatMessages.slice(0, nextMessageIndex),
+						{
+							...nextMessage,
+							statuses: [
+								...nextMessage.statuses.slice(0, nextMessage.statusIndex),
+								{
+									...nextMessage.statuses[nextMessage.statusIndex],
+									status: "success",
+								},
+							],
+						},
+						...emailThreadChatMessages.slice(nextMessageIndex + 1),
+					],
+				});
+
+				if (isLastMessage) {
+					const validationRules =
+						applicationList.find((a) => a.id === docType)?.validationRules ||
+						[];
+
+					const updatedValidationRules = validationRules.map((r) => {
+						return { ...r, missing: false };
+					});
+
+					const updatedApplicationList = applicationList.map((a) => {
+						if (a.id === docType) {
+							return { ...a, validationRules: updatedValidationRules };
+						}
+
+						return a;
+					});
+
+					globalStore.setState({
+						applicationList: updatedApplicationList,
+					});
+				}
+			}
+
+			return;
+		}
+
 		const text = inputRef.current?.value ?? "";
 
 		if (!text || isStreaming) {
@@ -41,6 +98,7 @@ export function MessageInput({
 			uuid: createMessageUuid(),
 			showFooter: true,
 			showSender: true,
+			type: "default",
 			statusIndex: 0,
 			sender: "user",
 			toggleText: "",
@@ -79,6 +137,7 @@ export function MessageInput({
 					sender: "add-chart",
 					showFooter: true,
 					showSender: true,
+					type: "default",
 					statusIndex: 0,
 					toggleText: "",
 				};
@@ -103,6 +162,7 @@ export function MessageInput({
 					sender: "add-chart",
 					showFooter: true,
 					showSender: true,
+					type: "default",
 					statusIndex: 0,
 					toggleText: "",
 				};
@@ -127,6 +187,7 @@ export function MessageInput({
 					sender: "add-chart",
 					showFooter: true,
 					showSender: true,
+					type: "default",
 					statusIndex: 0,
 					toggleText: "",
 				};
@@ -154,6 +215,8 @@ export function MessageInput({
 		}
 	}
 
+	function handleSendNextMessage() {}
+
 	return (
 		<div className="flex gap-1 rounded-2xl w-[90%] min-h-8 mx-auto bg-gray-200">
 			<div className="relative z-10 flex w-full h-full items-center overflow-hidden rounded-xl border p-[1.5px]">
@@ -165,7 +228,7 @@ export function MessageInput({
 				<div className="relative z-20 flex items-center w-full h-full bg-gray-200 rounded-[calc(var(--radius-2xl)-4px)]">
 					<textarea
 						className="resize-none simple-scrollbar w-full h-10 focus-visible:outline-none p-2"
-						placeholder="Type something..."
+						placeholder="Click here to reply..."
 						onKeyDown={handleOnKeyDown}
 						ref={inputRef}
 					/>

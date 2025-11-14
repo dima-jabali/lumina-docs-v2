@@ -22,7 +22,9 @@ interface TopOcrErrorSourcesChartProps {
 
 export function FieldAccuracyHeatMapChart({
 	item,
-}: { item: DashboardItem<TopOcrErrorSourcesChartProps> }) {
+}: {
+	item: DashboardItem<TopOcrErrorSourcesChartProps>;
+}) {
 	return (
 		<Card className="border border-border-smooth/40 shadow-sm shadow-border-smooth/30 [grid-column:span_1] justify-between">
 			<CardHeader>

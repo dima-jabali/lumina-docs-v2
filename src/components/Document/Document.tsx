@@ -91,9 +91,8 @@ const DISABLED_CONTAINER = {
 };
 
 export const DocumentView = memo(function Document() {
-	const [isChatOpen, setIsChatOpen] = useState(false);
-
 	const updateOrgLocally = useUpdateOrgLocally().mutate;
+	const isChatOpen = globalStore.use.isChatOpen();
 	const fileMetadata = useFileMetadata();
 	const org = useCurrentOrganization();
 	const view = globalStore.use.view();
@@ -121,7 +120,7 @@ export const DocumentView = memo(function Document() {
 	handleGoBackRef.current = handleGoBack;
 
 	const handleToggleOpenChat = useCallback(() => {
-		setIsChatOpen((prev) => !prev);
+		globalStore.setState((prev) => ({ isChatOpen: !prev.isChatOpen }));
 	}, []);
 
 	useEffect(() => {
@@ -198,7 +197,7 @@ export const DocumentView = memo(function Document() {
 							<TooltipTrigger
 								className="aspect-square rounded-lg flex items-center justify-center button-hover size-6"
 								title="Toggle open Lumina Docs Dashboard Chat"
-								onClick={() => setIsChatOpen((prev) => !prev)}
+								onClick={handleToggleOpenChat}
 							>
 								<ChevronsLeftIcon
 									className="size-4 data-[is-open=true]:rotate-180 text-primary"
@@ -253,12 +252,9 @@ export const DocumentView = memo(function Document() {
 						<li className="flex flex-col gap-1 items-start justify-center rounded-md p-4 border border-border-smooth/20 shadow-md shadow-black/5 h-full">
 							<span className="text-muted-foreground">STATUS</span>
 
-							<span
-								className="text-base truncate max-w-full first-letter:capitalize"
-							>
+							<span className="text-base truncate max-w-full first-letter:capitalize">
 								<Badge className={matchStatusClassName(fileMetadata?.status)}>
-
-								{titleCase(fileMetadata?.status?.toLowerCase() ?? "")}
+									{titleCase(fileMetadata?.status?.toLowerCase() ?? "")}
 								</Badge>
 							</span>
 						</li>
@@ -353,7 +349,7 @@ export const DocumentView = memo(function Document() {
 
 										{step < numberOfSteps ? (
 											<StepperSeparator
-												className="absolute inset-x-0 top-3 left-[calc(50%+0.75rem+0.125rem)] -order-1 m-0 -translate-y-1/2 group-data-[orientation=horizontal]/stepper:left-[calc(50%+0.75rem)] group-data-[orientation=horizontal]/stepper:w-[calc(130%)] data-[last=true]:group-data-[orientation=horizontal]/stepper:w-[calc(90%)] group-data-[orientation=horizontal]/stepper:flex-none z-0"
+												className="absolute inset-x-0 top-3 left-[calc(50%+0.75rem+0.125rem)] -order-1 m-0 -translate-y-1/2 group-data-[orientation=horizontal]/stepper:left-[calc(50%+0.75rem)] group-data-[orientation=horizontal]/stepper:w-[calc(130%)] data-[last=true]:group-data-[orientation=horizontal]/stepper:w-[calc(94%)] group-data-[orientation=horizontal]/stepper:flex-none z-0"
 												data-last={step === numberOfSteps - 1}
 											/>
 										) : null}

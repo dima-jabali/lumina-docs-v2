@@ -21,7 +21,9 @@ interface UnderwritingCycleTimeChartProps {
 
 export function UnderwritingCycleTimeChart({
 	item,
-}: { item: DashboardItem<UnderwritingCycleTimeChartProps> }) {
+}: {
+	item: DashboardItem<UnderwritingCycleTimeChartProps>;
+}) {
 	return (
 		<Card className="border border-border-smooth/40 shadow-sm shadow-border-smooth/30 [grid-column:span_1] justify-between">
 			<CardHeader>

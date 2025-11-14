@@ -21,23 +21,12 @@ import {
 	SelectTrigger,
 	SelectValue,
 } from "@/components/ui/select";
-
-interface ValidationRule {
-	id: string;
-	name: string;
-	description: string;
-	type: "field" | "document" | "application";
-	condition: string;
-}
-
-interface Application {
-	id: string;
-	name: string;
-	description: string;
-	documentTypes: string[];
-	validationRules: ValidationRule[];
-	createdAt: string;
-}
+import {
+	globalStore,
+	type Application,
+	type ValidationRule,
+} from "@/contexts/luminaStore";
+import type { SupportedDocTypes } from "@/types/general-enums";
 
 interface EditApplicationDialogProps {
 	open: boolean;
@@ -46,35 +35,27 @@ interface EditApplicationDialogProps {
 	onEditApp: (app: Application) => void;
 }
 
-const availableDocumentTypes = [
-	"Bank Statement",
-	"Payslip",
-	"Tax Return",
-	"Utility Bill",
-	"Employment Letter",
-	"Invoice",
-	"Receipt",
-];
-
 export function EditApplicationDialog({
 	open,
 	onOpenChange,
 	application,
 	onEditApp,
 }: EditApplicationDialogProps) {
-	const [name, setName] = React.useState(application.name);
+	const [name, setName] = React.useState(application.id);
 	const [description, setDescription] = React.useState(application.description);
-	const [selectedDocTypes, setSelectedDocTypes] = React.useState<string[]>(
-		application.documentTypes,
-	);
+	const [selectedDocTypes, setSelectedDocTypes] = React.useState<
+		Array<SupportedDocTypes>
+	>(application.documentTypesId);
 	const [rules, setRules] = React.useState<ValidationRule[]>(
 		application.validationRules,
 	);
 
+	const documentTypes = globalStore.use.documentTypes();
+
 	React.useEffect(() => {
-		setName(application.name);
+		setName(application.id);
 		setDescription(application.description);
-		setSelectedDocTypes(application.documentTypes);
+		setSelectedDocTypes(application.documentTypesId);
 		setRules(application.validationRules);
 	}, [application]);
 
@@ -83,10 +64,10 @@ export function EditApplicationDialog({
 			...rules,
 			{
 				id: Date.now().toString(),
-				name: "",
-				description: "",
 				type: "application",
-				condition: "",
+				conditionNotMet: "",
+				description: "",
+				name: "",
 			},
 		]);
 	};
@@ -103,7 +84,7 @@ export function EditApplicationDialog({
 		setRules(rules.map((r) => (r.id === id ? { ...r, [key]: value } : r)));
 	};
 
-	const handleDocTypeToggle = (docType: string) => {
+	const handleDocTypeToggle = (docType: SupportedDocTypes) => {
 		setSelectedDocTypes((prev) =>
 			prev.includes(docType)
 				? prev.filter((d) => d !== docType)
@@ -118,9 +99,9 @@ export function EditApplicationDialog({
 
 		onEditApp({
 			...application,
-			name,
+			id: name,
 			description,
-			documentTypes: selectedDocTypes,
+			documentTypesId: selectedDocTypes,
 			validationRules: validRules,
 		});
 
@@ -164,19 +145,19 @@ export function EditApplicationDialog({
 						<label>Document Types</label>
 
 						<div className="grid grid-cols-2 gap-3 rounded-lg border border-border p-4">
-							{availableDocumentTypes.map((docType) => (
-								<div key={docType} className="flex items-center space-x-2">
+							{documentTypes.map((docType) => (
+								<div key={docType.id} className="flex items-center space-x-2">
 									<Checkbox
-										onCheckedChange={() => handleDocTypeToggle(docType)}
-										checked={selectedDocTypes.includes(docType)}
-										id={docType}
+										onCheckedChange={() => handleDocTypeToggle(docType.id)}
+										checked={selectedDocTypes.includes(docType.id)}
+										id={docType.id}
 									/>
 
 									<label
-										htmlFor={docType}
+										htmlFor={docType.id}
 										className="text-sm font-normal cursor-pointer"
 									>
-										{docType}
+										{docType.id}
 									</label>
 								</div>
 							))}
@@ -242,6 +223,58 @@ export function EditApplicationDialog({
 										</div>
 									</div>
 
+									{rule.type === "field" && (
+										<div className="space-y-2">
+											<label className="text-xs">Document Type</label>
+
+											<Select
+												onValueChange={(value) =>
+													handleRuleChange(rule.id, "documentTypeId", value)
+												}
+												value={rule.documentTypeId}
+											>
+												<SelectTrigger>
+													<SelectValue placeholder="Select a document type" />
+												</SelectTrigger>
+
+												<SelectContent>
+													{documentTypes.map((dt) => (
+														<SelectItem key={dt.id} value={dt.id}>
+															{dt.id}
+														</SelectItem>
+													))}
+												</SelectContent>
+											</Select>
+										</div>
+									)}
+
+									{rule.documentTypeId ? (
+										<div className="space-y-2">
+											<label className="text-xs">Field from Document</label>
+
+											<Select
+												onValueChange={(value) =>
+													handleRuleChange(rule.id, "documentField", value)
+												}
+												value={rule.documentField}
+											>
+												<SelectTrigger>
+													<SelectValue placeholder="Select a document field" />
+												</SelectTrigger>
+
+												<SelectContent>
+													{documentTypes
+														.find((dt) => dt.id === rule.documentTypeId)
+														?.schema.fields.map((field) => (
+															<SelectItem key={field.name} value={field.name}>
+																{field.name}
+															</SelectItem>
+														))}
+												</SelectContent>
+											</Select>
+										</div>
+									) : null}
+
 									<div className="space-y-2">
 										<label className="text-xs">Description</label>
 
@@ -254,13 +287,19 @@ export function EditApplicationDialog({
 									</div>
 
 									<div className="space-y-2">
-										<label className="text-xs">Condition</label>
+										<label className="text-xs">
+											What Happens If Condition Is Not Met
+										</label>
 
 										<Input
 											onChange={(e) =>
-												handleRuleChange(rule.id, "condition", e.target.value)
+												handleRuleChange(
+													rule.id,
+													"conditionNotMet",
+													e.target.value,
+												)
 											}
-											value={rule.condition}
+											value={rule.conditionNotMet}
 										/>
 									</div>
 

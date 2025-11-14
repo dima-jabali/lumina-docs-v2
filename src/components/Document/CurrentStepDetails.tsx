@@ -3,6 +3,7 @@
 import { AnimatePresence, motion } from "motion/react";
 import { titleCase } from "scule";
 
+import { globalStore, useDocType } from "@/contexts/luminaStore";
 import { useFileMetadata } from "@/hooks/fetch/use-fetch-document-metadata-list";
 import {
 	useCurrentOrganization,
@@ -19,17 +20,15 @@ import { InformationCompleteness } from "./CommissionSteps/InformationCompletene
 import { AutoTagGlCodes } from "./InvoiceSteps/AutoTagGlCodes";
 import { DuplicateInvoiceDetection } from "./InvoiceSteps/DuplicateInvoiceDetection";
 import { EarlyDiscountPaymentMonitor } from "./InvoiceSteps/EarlyDiscountPaymentMonitor";
-import { Invoice_PurchaseOrder_GoodsReceipt } from "./InvoiceSteps/Invoice_PurchaseOrder_GoodsReceipt";
 import { InvoiceSentToQuickbook } from "./InvoiceSteps/InvoiceSentToQuickbook";
+import { Invoice_PurchaseOrder_GoodsReceipt } from "./InvoiceSteps/Invoice_PurchaseOrder_GoodsReceipt";
 import { NotifiedMicrosoft } from "./InvoiceSteps/NotifiedMicrosoft";
 import { StoredInSharepoint } from "./InvoiceSteps/StoredInSharepoint";
-import { ApplicationScorecard } from "./MortgageSteps/ApplicationScorecard";
-import { RegulatoryCompliance } from "./MortgageSteps/RegulatoryCompliance";
 import { UnderwriterReview } from "./MortgageSteps/UnderwriterReview";
 import { RequireApprovalView } from "./RequireApprovalView";
 import SpendApprovalCalculator from "./SpendApprovalCalculator";
 import { ValidateMetadata } from "./ValidateMetadata";
-import { globalStore, useDocType } from "@/contexts/luminaStore";
+import { InfoCompleteness } from "./CommissionSteps/info-completeness";
 
 export function CurrentStepDetails() {
 	const selectedSubFile = globalStore.use.selectedSubFile();
@@ -54,7 +53,7 @@ export function CurrentStepDetails() {
 
 		const updatedOrg: typeof org = { ...org };
 
-		const stepIndex = org.steps[docType].findIndex(
+		const stepIndex = org.steps[docType]?.findIndex(
 			(s) => s.step === currentStep,
 		);
 
@@ -95,16 +94,16 @@ export function CurrentStepDetails() {
 			}
 		} else if (docType === SupportedDocTypes.Mortgage) {
 			switch (currentStep) {
+				case 1:
+					return <ValidateMetadata />;
+
 				case 2:
-					return <InformationCompleteness />;
+					return <InfoCompleteness />;
 
 				case 3:
-					return <ApplicationScorecard />;
+					return <ValidateMetadata />;
 
 				case 4:
-					return <RegulatoryCompliance />;
-
-				case 5:
 					return <UnderwriterReview />;
 
 				default:

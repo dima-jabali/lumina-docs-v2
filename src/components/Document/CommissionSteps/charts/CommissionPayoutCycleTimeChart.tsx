@@ -23,7 +23,9 @@ interface CycleTimeDistributionData {
 
 export function CommissionPayoutCycleTimeChart({
 	item,
-}: { item: DashboardItem<Array<CycleTimeDistributionData>> }) {
+}: {
+	item: DashboardItem<Array<CycleTimeDistributionData>>;
+}) {
 	return (
 		<Card className="flex flex-col justify-between border border-border-smooth/40 shadow-sm shadow-border-smooth/30">
 			<CardHeader>

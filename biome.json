@@ -1,33 +1,39 @@
 {
-	"$schema": "https://biomejs.dev/schemas/1.9.4/schema.json",
+	"$schema": "https://biomejs.dev/schemas/2.3.5/schema.json",
 	"vcs": {
 		"enabled": false,
 		"clientKind": "git",
-		"useIgnoreFile": true
+		"useIgnoreFile": false
 	},
 	"files": {
 		"ignoreUnknown": true,
-		"ignore": [
-			"**/test-results/**",
-			"**/node_modules/**",
-			"**/.history/**",
-			"**/public/**",
-			"**/.next/**",
-			"**/.git/**",
-			"**/dist/**"
+		"includes": [
+			"**",
+			"!**/.react-router/**",
+			"!**/node_modules/**",
+			"!**/test-results/**",
+			"!**/.history/**",
+			"!**/public/**",
+			"!**/build/**",
+			"!**/.next/**",
+			"!**/.git/**",
+			"!**/dist/**"
 		]
+	},
+	"css": {
+		"parser": {
+			"tailwindDirectives": true
+		}
 	},
 	"formatter": {
 		"enabled": true,
-		"indentStyle": "tab",
-		"bracketSpacing": true,
-		"formatWithErrors": false
-	},
-	"organizeImports": {
-		"enabled": true
+		"formatWithErrors": false,
+		"attributePosition": "auto",
+		"lineEnding": "lf",
+		"indentStyle": "tab"
 	},
 	"linter": {
-		"enabled": false,
+		"enabled": true,
 		"rules": {
 			"recommended": true
 		}
@@ -35,10 +41,17 @@
 	"javascript": {
 		"formatter": {
 			"quoteStyle": "double",
-			"arrowParentheses": "always",
-			"enabled": true,
+			"jsxQuoteStyle": "double",
 			"semicolons": "always",
 			"trailingCommas": "all"
+		}
+	},
+	"assist": {
+		"enabled": true,
+		"actions": {
+			"source": {
+				"organizeImports": "on"
+			}
 		}
 	}
 }

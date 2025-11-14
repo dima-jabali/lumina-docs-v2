@@ -11,7 +11,7 @@ type Props = {
 	index: number;
 };
 
-export function BotMessage({ message, index }: Props) {
+export function BotMessageEmail({ message, index }: Props) {
 	const { onEndFakeAiStream } = useOnFakeAiStreamEnd(message, index);
 
 	const status = message.statuses?.[message.statusIndex ?? 0];
@@ -48,8 +48,8 @@ export function BotMessage({ message, index }: Props) {
 			<div className="flex w-full flex-col gap-1 max-w-full simple-scrollbar">
 				<section
 					className="flex items-center gap-2 data-[show-sender=false]:opacity-0"
-					data-show-sender={showSender}
 					aria-label="Name and hour"
+					data-show-sender={showSender}
 				>
 					<p className="text-sm font-bold" contentEditable={false}>
 						Bot

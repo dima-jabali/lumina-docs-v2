@@ -129,8 +129,14 @@
 
 	body {
 		font-family: InterVariable, Inter, sans-serif;
-		font-feature-settings: "liga" 1, "calt" 1, "dlig" 1, "case" 1, "zero" 1,
-			"ss02" 1, "GRAD" 150;
+		font-feature-settings:
+			"liga" 1,
+			"calt" 1,
+			"dlig" 1,
+			"case" 1,
+			"zero" 1,
+			"ss02" 1,
+			"GRAD" 150;
 
 		::selection {
 			background-color: var(--color-accent);
@@ -178,12 +184,10 @@
 
 	&::-webkit-scrollbar-thumb:hover {
 		background: content-box var(--simple-scrollbar-active-thumb-color);
-
 	}
 
 	&::-webkit-scrollbar-thumb:active {
 		background: content-box var(--simple-scrollbar-active-thumb-color);
-
 	}
 
 	&::-webkit-scrollbar-corner {

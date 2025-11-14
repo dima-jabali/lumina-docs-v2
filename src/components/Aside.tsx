@@ -3,8 +3,10 @@
 import {
 	CheckSquare,
 	FolderOpen,
-	LayoutGrid, List, Settings,
-	Upload
+	LayoutGrid,
+	List,
+	Settings,
+	Upload,
 } from "lucide-react";
 import { Resizable } from "re-resizable";
 import { useEffect } from "react";
@@ -63,9 +65,6 @@ export function Aside() {
 	const isOnDashboardPage = luminaDocsTab === LuminaDocsTab.Dashboard;
 	const isAnyTabOpen = asideTab !== AsideTab.None;
 
-
-
-
 	useEffect(() => {
 		setAsideTabState({
 			sidebarTab:
@@ -96,7 +95,7 @@ export function Aside() {
 		setAsideTabState({ sidebarTab: asideTab === of ? AsideTab.None : of });
 	};
 
-		function handleGoTo(tab: AdminTab) {
+	function handleGoTo(tab: AdminTab) {
 		globalStore.setState({
 			adminTab: tab,
 		});
@@ -105,14 +104,15 @@ export function Aside() {
 	if (luminaDocsTab === LuminaDocsTab.FilesTable) {
 		return null;
 	}
-	
+
 	if (luminaDocsTab === LuminaDocsTab.Admin) {
-		return 					<aside
-			className="flex flex-col gap-1 p-2 border-r border-border-smooth w-56 h-full [grid-area:aside]"
-			data-is-any-tab-open={isAnyTabOpen}
-			data-should-take-footer-space
-			data-no-print
-		>
+		return (
+			<aside
+				className="flex flex-col gap-1 p-2 border-r border-border-smooth w-56 h-full [grid-area:aside]"
+				data-is-any-tab-open={isAnyTabOpen}
+				data-should-take-footer-space
+				data-no-print
+			>
 				<span className="text-xs text-muted font-semibold my-2">
 					Navigation
 				</span>
@@ -135,7 +135,7 @@ export function Aside() {
 					);
 				})}
 			</aside>
-
+		);
 	}
 
 	return (

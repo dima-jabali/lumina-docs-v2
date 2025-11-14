@@ -27,8 +27,18 @@ const GeneralTypesScope = scope(
 		MessageUuid: "string#MessageUuid",
 
 		Steps: {
+			[SupportedDocTypes.EmploymentVerification]: [
+				"FileMetadataStep[]",
+				"=",
+				() => [],
+			],
+			[SupportedDocTypes.BankStatement]: ["FileMetadataStep[]", "=", () => []],
+			[SupportedDocTypes.UtilityBill]: ["FileMetadataStep[]", "=", () => []],
 			[SupportedDocTypes.Commission]: ["FileMetadataStep[]", "=", () => []],
+			[SupportedDocTypes.TaxReturn]: ["FileMetadataStep[]", "=", () => []],
 			[SupportedDocTypes.Mortgage]: ["FileMetadataStep[]", "=", () => []],
+			[SupportedDocTypes.Receipt]: ["FileMetadataStep[]", "=", () => []],
+			[SupportedDocTypes.Payslip]: ["FileMetadataStep[]", "=", () => []],
 			[SupportedDocTypes.Invoice]: ["FileMetadataStep[]", "=", () => []],
 			[SupportedDocTypes.W2]: ["FileMetadataStep[]", "=", () => []],
 		},
@@ -61,9 +71,11 @@ const GeneralTypesScope = scope(
 			timeout: "number",
 		},
 		Status: "SuccessOrStreamingOrHiddenStatus | LoadingStatus",
+		MessageType: '"email" | "default"',
 
 		Message: {
 			sender: "MessageSender = 'bot'",
+			type: "MessageType = 'default'",
 			showFooter: "boolean = true",
 			showSender: "boolean = true",
 			createdAt: "ISODateString",
@@ -101,6 +113,7 @@ export type MessageSender = typeof GeneralTypesScopeExport.MessageSender.infer;
 export type ISODateString = typeof GeneralTypesScopeExport.ISODateString.infer;
 export type Organization = typeof GeneralTypesScopeExport.Organization.infer;
 export type MessageUuid = typeof GeneralTypesScopeExport.MessageUuid.infer;
+export type MessageType = typeof GeneralTypesScopeExport.MessageType.infer;
 export type Message = typeof GeneralTypesScopeExport.Message.infer;
 
 export const createMessageUuid = () => crypto.randomUUID() as MessageUuid;

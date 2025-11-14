@@ -28,7 +28,9 @@ interface ExceptionRateData {
 
 export function ExceptionRateOverTimeChart({
 	item,
-}: { item: DashboardItem<Array<ExceptionRateData>> }) {
+}: {
+	item: DashboardItem<Array<ExceptionRateData>>;
+}) {
 	return (
 		<Card className="flex flex-col justify-between border border-border-smooth/40 shadow-sm shadow-border-smooth/30">
 			<CardHeader>

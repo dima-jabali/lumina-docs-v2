@@ -22,7 +22,9 @@ const LINE_COLORS = ["#2563eb", "#16a34a", "#ca8a04", "#dc2626", "#7c3aed"];
 
 export function DelinquencyRateChart({
 	item,
-}: { item: DashboardItem<VintageData> }) {
+}: {
+	item: DashboardItem<VintageData>;
+}) {
 	return (
 		<Card className="border border-border-smooth/40 shadow-sm shadow-border-smooth/30 [grid-column:span_1] justify-between">
 			<CardHeader>

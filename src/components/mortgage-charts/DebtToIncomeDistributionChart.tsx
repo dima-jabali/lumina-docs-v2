@@ -67,7 +67,9 @@ const generateFakeDTIData = (): DTIBinData[] => {
  */
 export function DebtToIncomeDistributionChart({
 	item,
-}: { item: DashboardItem }) {
+}: {
+	item: DashboardItem;
+}) {
 	const data = generateFakeDTIData();
 
 	return (

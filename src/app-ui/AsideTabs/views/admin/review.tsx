@@ -89,8 +89,7 @@ export function ReviewPage() {
 				</div>
 			</header>
 
-<div className="block simple-scrollbar max-h-[calc(100vh-130px)] max-w-full">
-
+			<div className="block simple-scrollbar max-h-[calc(100vh-130px)] max-w-full">
 				<div className="mx-auto max-w-6xl p-6 space-y-6">
 					{/* Stats Cards */}
 					<div className="grid gap-4 md:grid-cols-3">
@@ -323,7 +322,7 @@ export function ReviewPage() {
 						</CardContent>
 					</Card>
 				</div>
-</div>
+			</div>
 
 			{fileInReview && (
 				<ReviewDocumentDialog

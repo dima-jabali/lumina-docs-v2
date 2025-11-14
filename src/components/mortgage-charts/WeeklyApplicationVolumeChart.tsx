@@ -61,7 +61,9 @@ const chartData = calculateMovingAverage(rawData, 4); // Calculate 4-week MA
 
 export function WeeklyApplicationVolumeChart({
 	item,
-}: { item: DashboardItem }) {
+}: {
+	item: DashboardItem;
+}) {
 	const [{ margin }] = useState({
 		margin: { top: 20, right: 30, left: 20, bottom: 5 },
 	});

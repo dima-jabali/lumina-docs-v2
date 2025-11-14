@@ -23,6 +23,7 @@ import {
 } from "@/components/ui/select";
 import { Checkbox } from "@/components/ui/checkbox";
 import type { DocumentType } from "@/contexts/luminaStore";
+import type { SupportedDocTypes } from "@/types/general-enums";
 
 interface Field {
 	name: string;
@@ -45,12 +46,12 @@ export function EditDocumentTypeDialog({
 }: EditDocumentTypeDialogProps) {
 	const [fields, setFields] = useState<Field[]>(documentType.schema.fields);
 	const [description, setDescription] = useState(documentType.description);
-	const [name, setName] = useState(documentType.name);
+	const [name, setName] = useState(documentType.id);
 
 	useEffect(() => {
 		setDescription(documentType.description);
 		setFields(documentType.schema.fields);
-		setName(documentType.name);
+		setName(documentType.id);
 	}, [documentType]);
 
 	const handleAddField = () => {
@@ -102,8 +103,8 @@ export function EditDocumentTypeDialog({
 						<label htmlFor="edit-name">Type Name</label>
 
 						<Input
+							onChange={(e) => setName(e.target.value as SupportedDocTypes)}
 							placeholder="e.g., Invoice, Receipt, Contract"
-							onChange={(e) => setName(e.target.value)}
 							id="edit-name"
 							value={name}
 						/>

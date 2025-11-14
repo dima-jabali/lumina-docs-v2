@@ -47,7 +47,7 @@ const estimateSize = () => 70;
 
 const mapRowToCells = (cell: DocumentCell) => (
 	<td
-	style={{ width: cell.column.getSize() }}
+		style={{ width: cell.column.getSize() }}
 		className="relative"
 		key={cell.id}
 	>

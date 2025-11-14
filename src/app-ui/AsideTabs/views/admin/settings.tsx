@@ -146,7 +146,7 @@ export function SettingsPage() {
 				</div>
 			</header>
 
-<div className="block simple-scrollbar max-h-[calc(100vh-130px)] max-w-full p-6">
+			<div className="block simple-scrollbar max-h-[calc(100vh-130px)] max-w-full p-6">
 				<div className="mx-auto max-w-5xl flex-1 simple-scrollbar">
 					<Tabs defaultValue="api-keys" className="space-y-6">
 						<TabsList>

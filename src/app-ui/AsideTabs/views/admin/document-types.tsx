@@ -29,18 +29,9 @@ export function DocumentTypes() {
 
 	const documentTypes = globalStore.use.documentTypes();
 
-	const handleCreateType = (
-		newType: Omit<DocumentType, "id" | "fieldCount" | "documentCount">,
-	) => {
-		const type: DocumentType = {
-			...newType,
-			id: Date.now().toString(),
-			fieldCount: newType.schema.fields.length,
-			documentCount: 0,
-		};
-
+	const handleCreateType = (newType: DocumentType) => {
 		globalStore.setState((prev) => ({
-			documentTypes: [...prev.documentTypes, type],
+			documentTypes: [...prev.documentTypes, newType],
 		}));
 	};
 
@@ -89,7 +80,7 @@ export function DocumentTypes() {
 				</div>
 			</header>
 
-<div className="block simple-scrollbar max-h-[calc(100vh-130px)] max-w-full p-6">
+			<div className="block simple-scrollbar max-h-[calc(100vh-130px)] max-w-full p-6">
 				<div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
 					{documentTypes.map((type) => (
 						<Card key={type.id}>
@@ -101,7 +92,7 @@ export function DocumentTypes() {
 										</div>
 
 										<div>
-											<CardTitle className="text-base">{type.name}</CardTitle>
+											<CardTitle className="text-base">{type.id}</CardTitle>
 
 											<CardDescription className="mt-1 text-xs">
 												{type.description}
@@ -142,15 +133,7 @@ export function DocumentTypes() {
 										</p>
 
 										<p className="text-xl font-semibold text-foreground">
-											{type.fieldCount}
-										</p>
-									</div>
-
-									<div className="rounded bg-muted/20 p-3">
-										<p className="text-xs text-muted-foreground">Documents</p>
-
-										<p className="text-xl font-semibold text-foreground">
-											{type.documentCount}
+											{type.schema.fields.length}
 										</p>
 									</div>
 								</div>
@@ -222,7 +205,6 @@ export function DocumentTypes() {
 
 			<CreateDocumentTypeDialog
 				onOpenChange={setCreateDialogOpen}
-				// @ts-expect-error => ignore
 				onCreateType={handleCreateType}
 				open={createDialogOpen}
 			/>
