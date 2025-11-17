@@ -167,17 +167,9 @@ const globalStoreBase = create(
 				],
 				validationRules: [
 					{
-						id: "r1",
-						name: "Payslip Currency",
-						description: "Payslip must be current as of last 3 months",
-						type: "document",
-						conditionNotMet: "Ask for a payslip from last 3 months",
-					},
-					{
 						id: "r2",
 						name: "Address Consistency",
-						description:
-							"Utility bill address must match bank statement address",
+						description: "Utility bill address must match address on the ID",
 						type: "application",
 						conditionNotMet: "Ask for a utility bill with matching address",
 						missing: true,
@@ -192,7 +184,7 @@ const globalStoreBase = create(
 								statusIndex: 0,
 								statuses: [{ status: "success" }],
 								uuid: createMessageUuid(),
-								text: "**Action Required: Address Mismatch Found**\n\nWe have reviewed the utility bill you submitted for proof of address. The address listed on the document (`123 Elm St, Apt 2B`) does not match the address on your ID (`456 Oak Ave, Unit 1A`).\n\nTo proceed with your application, please provide one of the following:\n1. A different valid Proof of Address document that clearly shows your ID address (`456 Oak Ave, Unit 1A`).\n2. Confirmation of which address is the current, correct one.",
+								text: "**Action Required: Address Mismatch Found**\n\nWe have reviewed the utility bill you submitted for proof of address. The address listed on the document (**`123 Elm St, Apt 2B`**) does not match the address on your ID (**`833 Sisa Street. BRGY 526, Sampaloc, Manila, NCR`**).\n\nTo proceed with your application, please provide one of the following:\n1. A different valid Proof of Address document that clearly shows your ID address (**`833 Sisa Street. BRGY 526, Sampaloc, Manila, NCR`**).\n2. Confirmation of which address is the current, correct one.",
 							},
 							// 2. User replies they don't have another utility document (User to Bot)
 							{
@@ -205,7 +197,7 @@ const globalStoreBase = create(
 								statuses: [{ status: "hidden" }],
 								uuid: createMessageUuid(),
 								type: "email",
-								text: "Hi, I don't have another utility bill right now that shows the 456 Oak Ave address. The ID address is the correct one. What other documents can I use? I can't wait for a new utility bill to be generated.",
+								text: "Hi, I don't have another utility bill right now that shows the Sisa Street address. The ID address is the correct one. What other documents can I use? I can't wait for a new utility bill to be generated.",
 							},
 							// 3. Agent asks which address is correct and lists alternatives (Bot to User)
 							{
@@ -219,7 +211,7 @@ const globalStoreBase = create(
 								uuid: createMessageUuid(),
 								type: "email",
 
-								text: "Thank you for confirming that **456 Oak Ave, Unit 1A** is your correct current address. \n\nSince you don't have another utility bill, here is a list of alternative Proof of Address documents we can accept, provided they are dated within the last 90 days and show your name and the correct address:\n\n* Bank or Credit Card Statement\n* Lease Agreement or Mortgage Statement\n* **Hospital or Medical Bill**\n* Government-issued tax document\n\nPlease upload one of these alternatives showing the address **456 Oak Ave, Unit 1A** to continue.",
+								text: "Thank you for confirming that **`833 Sisa Street. BRGY 526, Sampaloc, Manila, NCR`** is your correct current address. \n\nSince you don't have another utility bill, here is a list of alternative Proof of Address documents we can accept, provided they are dated within the last 90 days and show your name and the correct address:\n\n* Hospital bill\n* Barangay certificate\n* Bank statement\n* Insurance policy\n * Delivery receipt\n\nPlease upload one of these alternatives showing the address **Sisa Street** to continue.",
 							},
 							// 4. User submits hospital bill (User to Bot - simulating upload confirmation)
 							{
@@ -233,7 +225,7 @@ const globalStoreBase = create(
 								uuid: createMessageUuid(),
 								type: "email",
 
-								text: "I have uploaded a hospital bill dated last month. It clearly shows my name and the 456 Oak Ave, Unit 1A address.",
+								text: "I have uploaded a hospital bill dated last month. It clearly shows my name and the Sisa Street address.",
 							},
 							// 5. Agent marks as complete and correct (Bot to User)
 							{
@@ -247,10 +239,18 @@ const globalStoreBase = create(
 								uuid: createMessageUuid(),
 								type: "email",
 
-								text: "**Verification Complete!**\n\nWe have reviewed the hospital bill. The document is accepted and successfully confirms your address as **456 Oak Ave, Unit 1A**. \n\nThis verification step is now **complete and correct**. We will proceed with the next steps of your application.",
+								text: "**Verification Complete!**\n\nWe have reviewed the hospital bill. The document is accepted and successfully confirms your address as **Sisa Street**. \n\nThis verification step is now **complete and correct**. We will proceed with the next steps of your application.",
 							},
 						],
 					},
+					{
+						id: "r1",
+						name: "Payslip Currency",
+						description: "Payslip must be current as of last 3 months",
+						type: "document",
+						conditionNotMet: "Ask for a payslip from last 3 months",
+					},
+
 					{
 						id: "r3",
 						name: "Required Documents",

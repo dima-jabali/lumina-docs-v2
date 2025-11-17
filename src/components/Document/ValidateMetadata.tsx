@@ -30,29 +30,39 @@ export const ValidateMetadata: React.FC = () => {
 					className="w-full border-dashed border border-border-smooth rounded-md p-4 flex flex-col gap-2 hover:bg-black/3"
 					key={rule.id}
 				>
-					<span>{rule.name}</span>
-
-					<div className="flex items-center justify-between gap-10 text-sm text-muted-foreground">
-						<p>{rule.description}</p>
-
+					<span
+						className="flex items-center gap-4 group"
+						data-error={
+							// @ts-expect-error
+							rule.missing
+						}
+					>
 						{
 							// @ts-expect-error
 							!rule.missing ? (
 								<Check className="size-4 text-green-600" />
 							) : (
-								<div className="flex flex-col w-1/2 flex-none">
-									<span className="flex mt-2 gap-2 items-center text-sm">
-										<AlertCircle className="size-4 text-yellow-600" />
-										Required field not present!
-									</span>
+								<AlertCircle className="size-4 text-red-800" />
+							)
+						}
 
-									<button
-										className="flex flex-col gap-1 mt-2 p-2 rounded-md h-auto bg-green-300/30 border text-xs border-green-300 text-green-700 hover:bg-green-300/40 active:bg-green-300/60"
-										onClick={() => handleGoToEmailThread(rule)}
-									>
-										Email thread
-									</button>
-								</div>
+						<span className="group-data-[error=true]:text-red-800">
+							{rule.name}
+						</span>
+					</span>
+
+					<div className="flex flex-col items-start gap-2 text-sm text-muted-foreground">
+						<p>{rule.description}</p>
+
+						{
+							// @ts-expect-error
+							!rule.missing ? null : (
+								<button
+									className="flex flex-col gap-1 mt-2 p-2 rounded-md h-auto bg-green-300/30 border text-xs border-green-300 text-green-700 hover:bg-green-300/40 active:bg-green-300/60"
+									onClick={() => handleGoToEmailThread(rule)}
+								>
+									Email thread
+								</button>
 							)
 						}
 					</div>

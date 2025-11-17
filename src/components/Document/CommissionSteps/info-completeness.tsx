@@ -373,63 +373,65 @@ export function InfoCompleteness() {
 						</Card>
 					</motion.div>
 
-					{allMissingDetails.length > 0 ?<motion.div {...ANIMATION_PROPS}>
-						<Separator className="col-span-2 my-4" />
+					{allMissingDetails.length > 0 ? (
+						<motion.div {...ANIMATION_PROPS}>
+							<Separator className="col-span-2 my-4" />
 
-						<div className="flex flex-col col-span-2">
-							<CardHeader className="items-center p-0">
-								<CardTitle>Missing Documents/Informations</CardTitle>
-							</CardHeader>
+							<div className="flex flex-col col-span-2">
+								<CardHeader className="items-center p-0">
+									<CardTitle>Missing Documents/Informations</CardTitle>
+								</CardHeader>
 
-							<ul className="flex-1 flex-col pl-4 pt-2">
-								{allMissingDetails.map((item, index) => (
-									<li
-										className="list-decimal text-primary text-sm my-4"
-										key={index}
-									>
-										<div className="flex gap-2 justify-between items-start">
-											<div className="flex flex-col">
-												<p className="font-semibold">{item.docName}</p>
+								<ul className="flex-1 flex-col pl-4 pt-2">
+									{allMissingDetails.map((item, index) => (
+										<li
+											className="list-decimal text-primary text-sm my-4"
+											key={index}
+										>
+											<div className="flex gap-2 justify-between items-start">
+												<div className="flex flex-col">
+													<p className="font-semibold">{item.docName}</p>
 
-												<p className="text-xs">{item.description}</p>
+													<p className="text-xs">{item.description}</p>
 
-												{item.missingFields.length > 0 && (
-													<ul className="list-decimal text-primary text-xs pl-8 mt-3 [&_li]:mt-2 border rounded-lg py-4">
-														<h4 className="font-semibold mb-3 -ml-4">
-															Missing Informations
-														</h4>
+													{item.missingFields.length > 0 && (
+														<ul className="list-decimal text-primary text-xs pl-8 mt-3 [&_li]:mt-2 border rounded-lg py-4">
+															<h4 className="font-semibold mb-3 -ml-4">
+																Missing Informations
+															</h4>
 
-														{item.missingFields.map((field, fIndex) => (
-															<li key={fIndex}>{titleCase(field)}</li>
-														))}
-													</ul>
-												)}
-											</div>
+															{item.missingFields.map((field, fIndex) => (
+																<li key={fIndex}>{titleCase(field)}</li>
+															))}
+														</ul>
+													)}
+												</div>
 
-											{item.isApplicableButton && (
-												<Button size="xs" variant="outline">
-													Not applicable
-												</Button>
-											)}
-											{!item.isApplicableButton &&
-												item.docName !== "Lender Details" && (
-													<Button size="xs" variant="destructive">
-														Missing
+												{item.isApplicableButton && (
+													<Button size="xs" variant="outline">
+														Not applicable
 													</Button>
 												)}
-										</div>
+												{!item.isApplicableButton &&
+													item.docName !== "Lender Details" && (
+														<Button size="xs" variant="destructive">
+															Missing
+														</Button>
+													)}
+											</div>
 
-										<button
-											className="flex flex-col gap-1 mt-2 p-2 rounded-md h-auto bg-green-300/30 border text-xs border-green-300 text-green-700 hover:bg-green-300/40 active:bg-green-300/60"
-											onClick={() => handleGoToEmailThread(item)}
-										>
-											Email thread
-										</button>
-									</li>
-								))}
-							</ul>
-						</div>
-					</motion.div>:null}
+											<button
+												className="flex flex-col gap-1 mt-2 p-2 rounded-md h-auto bg-green-300/30 border text-xs border-green-300 text-green-700 hover:bg-green-300/40 active:bg-green-300/60"
+												onClick={() => handleGoToEmailThread(item)}
+											>
+												Email thread
+											</button>
+										</li>
+									))}
+								</ul>
+							</div>
+						</motion.div>
+					) : null}
 				</div>
 			</AnimatePresence>
 		</>

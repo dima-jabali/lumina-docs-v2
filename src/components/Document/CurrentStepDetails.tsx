@@ -48,6 +48,8 @@ export function CurrentStepDetails() {
 		return null;
 	}
 
+	const isLastStep = step.step === org.steps[docType].length;
+
 	const handleNext = async () => {
 		const { currentStep } = org;
 
@@ -152,9 +154,11 @@ export function CurrentStepDetails() {
 			<header className="flex items-center gap-4 justify-between w-full">
 				<h2 className="font-semibold text-lg">{step.title}</h2>
 
-				<Button variant="success" onClick={handleNext}>
-					Next
-				</Button>
+				{isLastStep ? null : (
+					<Button variant="success" onClick={handleNext}>
+						Next
+					</Button>
+				)}
 			</header>
 
 			{selectedSubFile && step.dealsWithSubFiles ? (
@@ -201,7 +205,7 @@ export function CurrentStepDetails() {
 						{docType === SupportedDocTypes.Commission
 							? "commission"
 							: "mortgage"}{" "}
-						file to validate its fields
+						file to see extracted fields
 					</p>
 				</div>
 			) : null}

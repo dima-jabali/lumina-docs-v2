@@ -117,7 +117,9 @@ export function ChatWithLuminaDocs() {
 
 											{/* Email Content */}
 											<div className="ml-14 space-y-3">
-												<Markdown>{email.text}</Markdown>
+												<div className="markdown">
+													<Markdown>{email.text}</Markdown>
+												</div>
 
 												{/* Email Actions */}
 												<div className="flex items-center gap-2 pt-2">
