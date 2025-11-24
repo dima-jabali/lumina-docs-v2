@@ -67,6 +67,7 @@ export function EditApplicationDialog({
 				type: "application",
 				conditionNotMet: "",
 				description: "",
+				missing: false,
 				name: "",
 			},
 		]);
