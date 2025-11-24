@@ -63,7 +63,7 @@ const getMissingInformationDetails = (
 	docType: SupportedDocTypes,
 	documentTypes: Array<DocumentType>,
 ): MissingDocInfo[] => {
-	if (1) {
+	if (docType === SupportedDocTypes.Mortgage) {
 		return [];
 	}
 
@@ -73,8 +73,26 @@ const getMissingInformationDetails = (
 		return [];
 	}
 
-	if (docType === SupportedDocTypes.Mortgage) {
-		return [
+
+	switch (docType) {
+		case SupportedDocTypes.Claims:
+						return [
+				{
+					docName: "Special Power of Attorney (SPA)",
+					description: "If someone else is acting on behalf of the applicant.",
+					missingFields: [
+						"Principal/Grantor Information (The person granting the power)",
+						"Agent/Attorney-in-Fact Information (The person being granted the power)",
+						"Specific Powers Granted",
+					],
+					isApplicableButton: true,
+					chatMessages: [],
+				},
+			];
+
+			// @ts-expect-error
+			case SupportedDocTypes.Mortgage:
+				return [
 			{
 				docName: titleCase("expiry_date"),
 				description:
@@ -173,22 +191,24 @@ const getMissingInformationDetails = (
 				chatMessages: [],
 			},
 		];
+	
+		default:
+			// For other types, use the original SPA example
+			return [
+				{
+					docName: "Special Power of Attorney (SPA)",
+					description: "If someone else is acting on behalf of the applicant.",
+					missingFields: [
+						"Principal/Grantor Information (The person granting the power)",
+						"Agent/Attorney-in-Fact Information (The person being granted the power)",
+						"Specific Powers Granted",
+					],
+					isApplicableButton: true,
+					chatMessages: [],
+				},
+			];
 	}
 
-	// For other types, use the original SPA example
-	return [
-		{
-			docName: "Special Power of Attorney (SPA)",
-			description: "If someone else is acting on behalf of the applicant.",
-			missingFields: [
-				"Principal/Grantor Information (The person granting the power)",
-				"Agent/Attorney-in-Fact Information (The person being granted the power)",
-				"Specific Powers Granted",
-			],
-			isApplicableButton: true,
-			chatMessages: [],
-		},
-	];
 };
 
 /**
@@ -199,7 +219,7 @@ const getMissingDocumentDetails = (
 	docType: SupportedDocTypes,
 	applicationList: LuminaDocsContextType["applicationList"],
 ): MissingDocInfo[] => {
-	if (1) {
+	if (docType === SupportedDocTypes.Mortgage) {
 		return [];
 	}
 
@@ -209,7 +229,11 @@ const getMissingDocumentDetails = (
 		return [];
 	}
 
-	// We'll fake that one of the required support documents is missing.
+	switch (docType) {
+		// @ts-expect-error
+		case SupportedDocTypes.Mortgage:
+			{
+				// We'll fake that one of the required support documents is missing.
 	// Required support docs for Mortgage are: EmploymentVerification, Payslip, TaxReturn, UtilityBill.
 	// We'll assume the UtilityBill is missing entirely, as per the screenshot SPA example.
 	const missingDoc = "Utility Bill"; // Faking 'Utility Bill' as the missing required document.
@@ -226,14 +250,36 @@ const getMissingDocumentDetails = (
 					?.chatMessages ?? [],
 		},
 	];
+			}
+	
+		default:
+						{
+	const missingDoc = "Medical Records"; 
+
+	return [
+		{
+			docName: missingDoc,
+			description:
+				"A required supporting document for the application is missing.",
+			missingFields: [],
+			isApplicableButton: false, // Cannot be 'Not applicable' as it's a required document type
+			chatMessages:
+				application.validationRules.find((rule) => rule.chatMessages)
+					?.chatMessages ?? [],
+		},
+	];
+			}
+	}
+
+	
 };
 
 export function InfoCompleteness() {
 	const docType = useDocType()!;
 
 	// Hardcoding values to match the screenshot and application context
-	const PRESENT_DOCS = 33;
-	const TOTAL_DOCS = 33;
+	const PRESENT_DOCS = docType === SupportedDocTypes.Commission?  33 : 5;
+	const TOTAL_DOCS = docType === SupportedDocTypes.Commission?  33 : 7;
 	const percentage = (PRESENT_DOCS / TOTAL_DOCS) * 100;
 
 	const CHART_DATA = [

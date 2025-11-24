@@ -13,6 +13,8 @@ import { FAKE_COMMISSION_FILES } from "@/lib/fake-commission-files";
 import { FAKE_MORTGAGE_FILES } from "@/lib/fake-mortgage-files";
 import { PLEASE_REFRESH_PAGE } from "@/lib/utils";
 import {
+	type ClaimFields,
+	type ClaimId,
 	type CommissionFields,
 	type CommissionId,
 	type Document,
@@ -35,6 +37,7 @@ import {
 	type MessageUuid,
 } from "@/types/organization";
 import { globalStore } from "@/contexts/luminaStore";
+import { FAKE_CLAIM_FILES } from "@/lib/fake-claim-files";
 
 export type FetchDocumentsResponse = {
 	results: Array<Document>;
@@ -254,6 +257,63 @@ export const useFetchDocumentMetadataList = <
 							...fakeCommission,
 							id: Math.random() as DocumentId,
 							file_name: "COMM-2025-001237",
+							file_uuid: makeDocumentUuid(),
+						},
+					);
+				}
+
+				{
+					console.log("Making fake claims");
+
+					const fakeClaims: Document = {
+						file_type: SupportedDocTypes.Claims,
+						status: GeneralIndexStatus.Complete,
+						id: Math.random() as DocumentId,
+						file_name: "CLAIM-2025-001233",
+						file_uuid: makeDocumentUuid(),
+						updated_at: createISODate(),
+						created_at: createISODate(),
+						chat_messages: new Map(),
+						error: null,
+						claimFiles: FAKE_CLAIM_FILES.map(
+							([file_name, fileFields, chat_messages]) =>
+								({
+									file_uuid: makeDocumentUuid(),
+									id: Math.random() as ClaimId,
+									created_at: createISODate(),
+									updated_at: createISODate(),
+									isValidated: true,
+									chat_messages,
+									fileFields,
+									file_name,
+								}) satisfies ClaimFields,
+						),
+					};
+
+					res.data.results.push(
+						fakeClaims,
+						{
+							...fakeClaims,
+							id: Math.random() as DocumentId,
+							file_name: "CLAIM-2025-001234",
+							file_uuid: makeDocumentUuid(),
+						},
+						{
+							...fakeClaims,
+							id: Math.random() as DocumentId,
+							file_name: "CLAIM-2025-001235",
+							file_uuid: makeDocumentUuid(),
+						},
+						{
+							...fakeClaims,
+							id: Math.random() as DocumentId,
+							file_name: "CLAIM-2025-001236",
+							file_uuid: makeDocumentUuid(),
+						},
+						{
+							...fakeClaims,
+							id: Math.random() as DocumentId,
+							file_name: "CLAIM-2025-001237",
 							file_uuid: makeDocumentUuid(),
 						},
 					);

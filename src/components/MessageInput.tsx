@@ -38,6 +38,7 @@ export function MessageInput({
 			const nextMessageIndex = emailThreadChatMessages.findIndex(
 				(email) => email.statuses[email.statusIndex]?.status === "hidden",
 			);
+
 			if (nextMessageIndex !== -1) {
 				const nextMessage = emailThreadChatMessages[nextMessageIndex]!;
 				const isLastMessage =

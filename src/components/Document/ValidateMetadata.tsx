@@ -20,6 +20,8 @@ export const ValidateMetadata: React.FC = () => {
 		});
 	}
 
+	console.log({ validationRules, docType });
+
 	return (
 		<ul
 			className="flex flex-col items-center gap-6"
@@ -33,12 +35,10 @@ export const ValidateMetadata: React.FC = () => {
 					<span
 						className="flex items-center gap-4 group"
 						data-error={
-							// @ts-expect-error
 							rule.missing
 						}
 					>
 						{
-							// @ts-expect-error
 							!rule.missing ? (
 								<Check className="size-4 text-green-600" />
 							) : (
@@ -55,7 +55,6 @@ export const ValidateMetadata: React.FC = () => {
 						<p>{rule.description}</p>
 
 						{
-							// @ts-expect-error
 							!rule.missing ? null : (
 								<button
 									className="flex flex-col gap-1 mt-2 p-2 rounded-md h-auto bg-green-300/30 border text-xs border-green-300 text-green-700 hover:bg-green-300/40 active:bg-green-300/60"

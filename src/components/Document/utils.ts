@@ -179,6 +179,8 @@ const MIME_TYPES: { [key: string]: string } = {
 };
 
 export const tryGetDocumentMimeType = (fileName: string | undefined | null) => {
+	console.log("tryGetDocumentMimeType fileName:", fileName);
+
 	if (!fileName) {
 		return undefined;
 	}
@@ -247,6 +249,9 @@ export function getSubFileType(docType: SupportedDocTypes | null | undefined) {
 
 		case SupportedDocTypes.Invoice:
 			return "invoice";
+
+		case SupportedDocTypes.Claims:
+			return "claimFiles";
 
 		default:
 			throw new Error(`Invalid doc type: ${docType}`);

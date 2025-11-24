@@ -111,6 +111,23 @@ export function CurrentStepDetails() {
 				default:
 					return null;
 			}
+		} else if (docType === SupportedDocTypes.Claims) {
+			switch (currentStep) {
+				case 1:
+					return <ValidateMetadata />;
+
+				case 2:
+					return <InfoCompleteness />;
+
+				case 3:
+					return <ValidateMetadata />;
+
+				case 4:
+					return <UnderwriterReview />;
+
+				default:
+					return null;
+			}
 		} else {
 			switch (currentStep) {
 				case 1:

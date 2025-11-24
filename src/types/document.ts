@@ -12,11 +12,13 @@ export type DocumentId = Tagged<number, "DocumentId">;
 export type MortgageId = Tagged<number, "MortgageId">;
 export type W2FieldsId = Tagged<number, "W2FieldsId">;
 export type InvoiceId = Tagged<number, "InvoiceId">;
+export type ClaimId = Tagged<number, "ClaimId">;
 
 export type Document = Nullable<{
 	commission_files?: Array<CommissionFields>;
 	chat_messages: Map<MessageUuid, Message>;
 	mortgages?: Array<MortgageFields>;
+	claimFiles?: Array<ClaimFields>;
 	file_type: SupportedDocTypes;
 	status: GeneralIndexStatus;
 	created_at: ISODateString;
@@ -33,6 +35,86 @@ export type Document = Nullable<{
 export enum LoanType {
 	Conventional = "Conventional",
 }
+
+export type ClaimFields = DeepNullable<{
+	fileFields: ClaimFileFields;
+	created_at: ISODateString;
+	updated_at: ISODateString;
+	file_name: string;
+}> & {
+	chat_messages?: Array<Message>;
+	file_uuid: DocumentUuid;
+	isValidated: boolean;
+	id: ClaimId;
+};
+
+export type ClaimFileFields = DeepNullable<
+	| {
+			file_name: string;
+			document_type: "attending_physician_statement";
+			patient_name: string;
+			date_of_birth: string;
+			policy_number: string;
+			diagnosis: string;
+			icd10_code: string;
+			date_of_diagnosis: string;
+			physician_name: string;
+			physician_license_no: string;
+			medical_facility: string;
+	  }
+			| {
+			document_type: "broker_id";
+			full_name: string;
+			id_number: string;
+			id_expiry: string;
+			face_photo_url: string;
+	  }
+	| {
+			file_name: string;
+			document_type: "hospital_statement_of_account";
+			patient_name: string;
+			hospital_name: string;
+			admission_date: string;
+			discharge_date: string;
+			case_number: string;
+			total_amount_due: number;
+			room_and_board_cost: number;
+			professional_fees: number;
+	  }
+	| {
+			file_name: string;
+			document_type: "medical_abstract";
+			patient_name: string;
+			abstract_date: string;
+			final_diagnosis: string;
+			clinical_history_summary: string;
+			lab_results_summary: string;
+			troponin_level: string; // Specific to the demo PDF content
+			procedure_performed: string;
+	  }
+	| {
+			file_name: string;
+			document_type: "death_certificate";
+			deceased_name: string;
+			date_of_death: string;
+			place_of_death: string;
+			immediate_cause: string;
+			antecedent_cause: string;
+			underlying_cause: string;
+			civil_status: string;
+			registry_number: string;
+	  }
+	| {
+			file_name: string;
+			document_type: "bank_account_proof";
+			account_name: string;
+			account_number: string;
+			bank_name: string;
+			branch_name: string;
+			account_type: string;
+			date_generated: string;
+	  }
+>;
 
 export type MortgageFileFields = DeepNullable<
 	| {

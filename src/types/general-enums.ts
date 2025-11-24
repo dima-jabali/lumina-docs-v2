@@ -50,5 +50,6 @@ export enum SupportedDocTypes {
 	Invoice = "Invoice",
 	Receipt = "Receipt",
 	Payslip = "Payslip",
+	Claims = "Claims",
 	W2 = "W2",
 }

@@ -9,6 +9,7 @@ import {
 	useFileMetadata,
 } from "@/hooks/fetch/use-fetch-document-metadata-list";
 import type {
+	ClaimFields,
 	CommissionFields,
 	DocumentUuid,
 	MortgageFields,
@@ -81,7 +82,7 @@ export type LuminaDocsContextType = {
 
 	organizationUuid: OrganizationUuid;
 
-	selectedSubFile: MortgageFields | CommissionFields | null;
+	selectedSubFile: MortgageFields | CommissionFields | ClaimFields | null;
 	dashboardList: Array<DashboardProject>;
 	dashboardChatMessages: Array<Message>;
 	isStreaming: boolean;
@@ -125,6 +126,7 @@ export type ValidationRule = {
 	conditionNotMet: string;
 	documentField?: string;
 	description: string;
+	missing: boolean;
 	name: string;
 	id: string;
 };
@@ -249,6 +251,7 @@ const globalStoreBase = create(
 						description: "Payslip must be current as of last 3 months",
 						type: "document",
 						conditionNotMet: "Ask for a payslip from last 3 months",
+							missing: false,
 					},
 
 					{
@@ -257,6 +260,7 @@ const globalStoreBase = create(
 						description: "All required documents must be submitted",
 						type: "application",
 						conditionNotMet: "Ask for all required documents",
+							missing: false,
 						chatMessages: [
 							{
 								sender: "bot",
@@ -317,12 +321,170 @@ const globalStoreBase = create(
 						description: "Employment letter must be recent",
 						type: "document",
 						conditionNotMet: "Ask for a recent employment letter",
+							missing: false,
 					},
 				],
 				createdAt: "2024-01-12",
 			},
+			{
+				id: SupportedDocTypes.Claims,
+				description:
+					"Processing for Critical Illness (Major Disease) claims, focusing on diagnosis and required documentation.",
+				documentTypesId: [
+					SupportedDocTypes.Claims, // Represents the core claim set (APS, SOA, Medical Records)
+					SupportedDocTypes.BankStatement, // Used to simulate Payee's Bank Account Proof
+					SupportedDocTypes.Receipt, // Used to simulate Payee's Valid ID/Proof of relationship
+				],
+				validationRules: [
+					{
+						id: "ci_r1_completeness",
+						name: "Medical Records Check",
+						description:
+							"Medical Records (Abstract, Lab Tests) must be submitted to support the diagnosis.",
+						type: "application",
+						conditionNotMet:
+							"Ask for missing Medical Records (Clinical Abstract & Lab Tests)",
+							missing: true,
+						chatMessages: [
+							{
+								sender: "bot",
+								showFooter: true,
+								showSender: true,
+								createdAt: createISODate(),
+								toggleText: "",
+								statusIndex: 0,
+								statuses: [{ status: "success" as const }],
+								uuid: createMessageUuid(),
+								text: "## 🚨 **Action Required: Incomplete Medical Records**\n\nWe are processing your Critical Illness claim but require additional supporting documentation.\n\nThe **Medical Records** (Admitting history, Clinical abstract, Lab tests, Record of operation) are either missing or incomplete.\n\n**Please upload the following required documents:**\n* **Clinical Abstract** (Must include diagnosis and physician notes)\n* **Lab Tests** (Objective evidence confirming the diagnosis)\n\nWe cannot proceed with assessment until these are received.",
+								type: "email",
+							},
+							// --- User replies they are uploading the documents ---
+							{
+								sender: "user",
+								showFooter: false,
+								showSender: true,
+								createdAt: createISODate(),
+								toggleText: "",
+								statusIndex: 0,
+								statuses: [{ status: "hidden" as const }],
+								uuid: createMessageUuid(),
+								text: "My apologies. I have just uploaded the complete Clinical Abstract and the Lab Test results under the document name 'CI_Medical_Records_0524'. Please let me know once they are reviewed.",
+								type: "email",
+							},
+							// --- Bot confirms receipt and next step ---
+							{
+								sender: "bot",
+								showFooter: true,
+								showSender: true,
+								createdAt: createISODate(),
+								toggleText: "",
+								statusIndex: 0,
+								statuses: [{ status: "hidden" as const }],
+								uuid: createMessageUuid(),
+								type: "email",
+								text: "**Medical Records Received and Accepted!**\n\nThe Clinical Abstract and Lab Test results have been successfully received and linked to your claim. We are now checking for consistency between the diagnosis and the policy's covered conditions.",
+							},
+						],
+					},
+					{
+						id: "ci_r2_consistency",
+						name: "Payee Name Consistency",
+						description:
+							"Payee Name on Valid ID must match Payee Name on Bank Account Proof (Consistency Rule).",
+						type: "application",
+						conditionNotMet:
+							"Ask for clarification on payee name difference between ID and bank proof.",
+							missing: false,
+						chatMessages: [
+							{
+								sender: "bot",
+								showFooter: true,
+								showSender: true,
+								createdAt: createISODate(),
+								toggleText: "",
+								statusIndex: 0,
+								statuses: [{ status: "success" as const }],
+								uuid: createMessageUuid(),
+								text: "## ⚠️ **Action Required: Payee Name Mismatch**\n\nWe identified a potential consistency issue between your payment documents:\n\n* **Payee's Valid ID:** Shows the name **`Maria A. Santos`**\n* **Payee's Bank Account Proof:** Shows the account name **`Maria Santos-Cruz`**\n\n**Action Required:** Please confirm if **`Maria A. Santos`** and **`Maria Santos-Cruz`** refer to the same person. If so, provide a brief affidavit or marriage certificate to confirm the legal name change/variation for secure electronic fund transfer.",
+								type: "email",
+							},
+							// --- User replies with clarification ---
+							{
+								sender: "user",
+								showFooter: false,
+								showSender: true,
+								createdAt: createISODate(),
+								toggleText: "",
+								statusIndex: 0,
+								statuses: [{ status: "success" as const }],
+								uuid: createMessageUuid(),
+								text: "Yes, that is the same person. 'Maria A. Santos' is my maiden name used on my ID. 'Maria Santos-Cruz' is my married name on the bank account. I have uploaded a copy of my Marriage Certificate for verification.",
+								type: "email",
+							},
+							// --- Bot confirms acceptance ---
+							{
+								sender: "bot",
+								showFooter: true,
+								showSender: true,
+								createdAt: createISODate(),
+								toggleText: "",
+								statusIndex: 0,
+								statuses: [{ status: "hidden" as const }],
+								uuid: createMessageUuid(),
+								type: "email",
+								text: "**Consistency Verified!**\n\nThank you for providing the Marriage Certificate. The name variation has been successfully verified, and the payee information is now **consistent** for claim payment purposes. Proceeding to the next validation step.",
+							},
+						],
+					},
+				],
+				createdAt: "2025-05-01",
+			},
 		],
 		documentTypes: [
+			{
+				id: SupportedDocTypes.Claims,
+				description:
+					"Comprehensive document set for various insurance claims (Death, Hospitalization, Critical Illness).",
+				schema: {
+					fields: [
+						{
+							name: "insuredName",
+							type: "string",
+							required: true,
+						},
+						{
+							name: "policyNumber",
+							type: "string",
+							required: true,
+						},
+						{
+							name: "eventDate",
+							type: "date",
+							required: true,
+						},
+						{
+							name: "diagnosis",
+							type: "string",
+							required: true,
+						},
+						{
+							name: "payeeName",
+							type: "string",
+							required: true,
+						},
+						{
+							name: "hospitalName",
+							type: "string",
+							required: false,
+						},
+						{
+							name: "claimType",
+							type: "string",
+							required: true, // e.g., 'Death', 'Critical Illness'
+						},
+					],
+				},
+			},
 			{
 				id: SupportedDocTypes.Mortgage,
 				description:
@@ -515,6 +677,41 @@ const globalStoreBase = create(
 				id: "3",
 				fileName: "bank_statement_dec.pdf",
 				documentType: "Bank Statement",
+				uploadedAt: "2024-01-14T16:20:00",
+				status: "approved",
+				confidence: 0.96,
+				file: null,
+				extractedData: [
+					{
+						name: "accountNumber",
+						value: "****1234",
+						confidence: 0.99,
+						type: "string",
+					},
+					{
+						name: "statementDate",
+						value: "2023-12-31",
+						confidence: 0.97,
+						type: "date",
+					},
+					{
+						name: "openingBalance",
+						value: "5000.00",
+						confidence: 0.95,
+						type: "number",
+					},
+					{
+						name: "closingBalance",
+						value: "5450.00",
+						confidence: 0.94,
+						type: "number",
+					},
+				],
+			},
+			{
+				id: "4",
+				fileName: "claim.pdf",
+				documentType: SupportedDocTypes.Claims,
 				uploadedAt: "2024-01-14T16:20:00",
 				status: "approved",
 				confidence: 0.96,

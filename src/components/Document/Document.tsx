@@ -368,7 +368,9 @@ export const DocumentView = memo(function Document() {
 							failedClassName="rounded-md"
 						>
 							{fileMetadata ? (
-								fileMetadata.mortgages || fileMetadata.commission_files ? (
+								fileMetadata.mortgages ||
+								fileMetadata.commission_files ||
+								fileMetadata.claimFiles ? (
 									<SubFileList fileMetadata={fileMetadata} />
 								) : (
 									<DocumentPreviewView fileMetadata={fileMetadata} />
@@ -404,6 +406,8 @@ function SubFileList({ fileMetadata }: { fileMetadata: Document }) {
 
 	const subFilesType = getSubFileType(docType);
 
+	console.log({ selectedSubFile, docType, subFilesType, fileMetadata });
+
 	function onTabChange(value: string) {
 		if (value === "file-list") {
 			globalStore.setState({ selectedSubFile: null });
@@ -414,7 +418,11 @@ function SubFileList({ fileMetadata }: { fileMetadata: Document }) {
 
 	function handleGoToPreviousFile() {
 		globalStore.setState((prev) => {
-			if (subFilesType !== "commission_files" && subFilesType !== "mortgages") {
+			if (
+				subFilesType !== "commission_files" &&
+				subFilesType !== "mortgages" &&
+				subFilesType !== "claimFiles"
+			) {
 				return prev;
 			}
 

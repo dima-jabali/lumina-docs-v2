@@ -40,6 +40,7 @@ const GeneralTypesScope = scope(
 			[SupportedDocTypes.Receipt]: ["FileMetadataStep[]", "=", () => []],
 			[SupportedDocTypes.Payslip]: ["FileMetadataStep[]", "=", () => []],
 			[SupportedDocTypes.Invoice]: ["FileMetadataStep[]", "=", () => []],
+			[SupportedDocTypes.Claims]: ["FileMetadataStep[]", "=", () => []],
 			[SupportedDocTypes.W2]: ["FileMetadataStep[]", "=", () => []],
 		},
 
@@ -51,6 +52,7 @@ const GeneralTypesScope = scope(
 					[SupportedDocTypes.Commission]: [],
 					[SupportedDocTypes.Mortgage]: [],
 					[SupportedDocTypes.Invoice]: [],
+					[SupportedDocTypes.Claims]: [],
 					[SupportedDocTypes.W2]: [],
 				}),
 			],
