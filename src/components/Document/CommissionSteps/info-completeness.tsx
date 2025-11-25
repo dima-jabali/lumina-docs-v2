@@ -73,10 +73,9 @@ const getMissingInformationDetails = (
 		return [];
 	}
 
-
 	switch (docType) {
 		case SupportedDocTypes.Claims:
-						return [
+			return [
 				{
 					docName: "Special Power of Attorney (SPA)",
 					description: "If someone else is acting on behalf of the applicant.",
@@ -90,108 +89,108 @@ const getMissingInformationDetails = (
 				},
 			];
 
-			// @ts-expect-error
-			case SupportedDocTypes.Mortgage:
-				return [
-			{
-				docName: titleCase("expiry_date"),
-				description:
-					"Information from file 'BUILDING PERMIT & BILL OF MATERIALS' is incomplete.",
-				missingFields: ["expiry_date"],
-				isApplicableButton: false, // Cannot be 'Not applicable' for a primary required field
-				chatMessages: [
-					{
-						sender: "bot" as const,
-						showFooter: true,
-						showSender: true,
-						createdAt: createISODate(),
-						toggleText: "",
-						statusIndex: 0,
-						statuses: [
-							{
-								status: "success" as const,
-							},
-						],
-						type: "default",
-						uuid: createMessageUuid(),
-						text: "Hello. I'm reviewing the 'BUILDING PERMIT & BILL OF MATERIALS' document (ID: BP-482-2025) for processing. We've run into a minor blocker on the permit section.",
-					},
-					{
-						sender: "bot" as const,
-						showFooter: true,
-						showSender: true,
-						createdAt: createISODate(),
-						toggleText: "",
-						statusIndex: 0,
-						statuses: [
-							{
-								status: "success" as const,
-							},
-						],
-						type: "default",
-						uuid: createMessageUuid(),
-						text: 'The mandatory field **"expiry\_date"** for the Building Permit is currently missing. For regulatory compliance and scheduling accuracy, we need this date to confirm the permit\'s active status before we can greenlight materials ordering.',
-					},
-					{
-						sender: "bot" as const,
-						showFooter: true,
-						showSender: true,
-						createdAt: createISODate(),
-						toggleText: "",
-						statusIndex: 0,
-						statuses: [
-							{
-								status: "success" as const,
-							},
-						],
-						type: "default",
-						uuid: createMessageUuid(),
-						text: "Could you please provide the official expiry date of the permit? Once added, the Bill of Materials can be finalized and submitted immediately.",
-					},
-					{
-						sender: "user" as const,
-						showFooter: true,
-						showSender: true,
-						createdAt: createISODate(),
-						toggleText: "",
-						statusIndex: 0,
-						statuses: [
-							{
-								status: "success" as const,
-							},
-						],
-						type: "default",
-						uuid: createMessageUuid(),
-						text: "My apologies! That detail must have been overlooked. The permit expiry date is **2026-06-30**.",
-					},
-					{
-						sender: "bot" as const,
-						showFooter: true,
-						showSender: true,
-						createdAt: createISODate(),
-						toggleText: "",
-						statusIndex: 0,
-						statuses: [
-							{
-								status: "success" as const,
-							},
-						],
-						type: "default",
-						uuid: createMessageUuid(),
-						text: "Confirmed. Adding `expiry_date: 2026-06-30` to the Permit record. Processing the final submission now. Thank you for the quick response!",
-					},
-				],
-			},
-			{
-				docName: titleCase("contractor_name"),
-				description:
-					"Information from file 'BUILDING PERMIT & BILL OF MATERIALS' is incomplete.",
-				missingFields: ["contractor_name"],
-				isApplicableButton: false, // Cannot be 'Not applicable' for a primary required field
-				chatMessages: [],
-			},
-		];
-	
+		// @ts-expect-error
+		case SupportedDocTypes.Mortgage:
+			return [
+				{
+					docName: titleCase("expiry_date"),
+					description:
+						"Information from file 'BUILDING PERMIT & BILL OF MATERIALS' is incomplete.",
+					missingFields: ["expiry_date"],
+					isApplicableButton: false, // Cannot be 'Not applicable' for a primary required field
+					chatMessages: [
+						{
+							sender: "bot" as const,
+							showFooter: true,
+							showSender: true,
+							createdAt: createISODate(),
+							toggleText: "",
+							statusIndex: 0,
+							statuses: [
+								{
+									status: "success" as const,
+								},
+							],
+							type: "default",
+							uuid: createMessageUuid(),
+							text: "Hello. I'm reviewing the 'BUILDING PERMIT & BILL OF MATERIALS' document (ID: BP-482-2025) for processing. We've run into a minor blocker on the permit section.",
+						},
+						{
+							sender: "bot" as const,
+							showFooter: true,
+							showSender: true,
+							createdAt: createISODate(),
+							toggleText: "",
+							statusIndex: 0,
+							statuses: [
+								{
+									status: "success" as const,
+								},
+							],
+							type: "default",
+							uuid: createMessageUuid(),
+							text: 'The mandatory field **"expiry\_date"** for the Building Permit is currently missing. For regulatory compliance and scheduling accuracy, we need this date to confirm the permit\'s active status before we can greenlight materials ordering.',
+						},
+						{
+							sender: "bot" as const,
+							showFooter: true,
+							showSender: true,
+							createdAt: createISODate(),
+							toggleText: "",
+							statusIndex: 0,
+							statuses: [
+								{
+									status: "success" as const,
+								},
+							],
+							type: "default",
+							uuid: createMessageUuid(),
+							text: "Could you please provide the official expiry date of the permit? Once added, the Bill of Materials can be finalized and submitted immediately.",
+						},
+						{
+							sender: "user" as const,
+							showFooter: true,
+							showSender: true,
+							createdAt: createISODate(),
+							toggleText: "",
+							statusIndex: 0,
+							statuses: [
+								{
+									status: "success" as const,
+								},
+							],
+							type: "default",
+							uuid: createMessageUuid(),
+							text: "My apologies! That detail must have been overlooked. The permit expiry date is **2026-06-30**.",
+						},
+						{
+							sender: "bot" as const,
+							showFooter: true,
+							showSender: true,
+							createdAt: createISODate(),
+							toggleText: "",
+							statusIndex: 0,
+							statuses: [
+								{
+									status: "success" as const,
+								},
+							],
+							type: "default",
+							uuid: createMessageUuid(),
+							text: "Confirmed. Adding `expiry_date: 2026-06-30` to the Permit record. Processing the final submission now. Thank you for the quick response!",
+						},
+					],
+				},
+				{
+					docName: titleCase("contractor_name"),
+					description:
+						"Information from file 'BUILDING PERMIT & BILL OF MATERIALS' is incomplete.",
+					missingFields: ["contractor_name"],
+					isApplicableButton: false, // Cannot be 'Not applicable' for a primary required field
+					chatMessages: [],
+				},
+			];
+
 		default:
 			// For other types, use the original SPA example
 			return [
@@ -208,7 +207,6 @@ const getMissingInformationDetails = (
 				},
 			];
 	}
-
 };
 
 /**
@@ -225,61 +223,74 @@ const getMissingDocumentDetails = (
 
 	const application = applicationList.find((app) => app.id === docType);
 
+	console.log({ application, docType });
+
 	if (!application) {
 		return [];
 	}
 
 	switch (docType) {
 		// @ts-expect-error
-		case SupportedDocTypes.Mortgage:
-			{
-				// We'll fake that one of the required support documents is missing.
-	// Required support docs for Mortgage are: EmploymentVerification, Payslip, TaxReturn, UtilityBill.
-	// We'll assume the UtilityBill is missing entirely, as per the screenshot SPA example.
-	const missingDoc = "Utility Bill"; // Faking 'Utility Bill' as the missing required document.
+		case SupportedDocTypes.Mortgage: {
+			// We'll fake that one of the required support documents is missing.
+			// Required support docs for Mortgage are: EmploymentVerification, Payslip, TaxReturn, UtilityBill.
+			// We'll assume the UtilityBill is missing entirely, as per the screenshot SPA example.
+			const missingDoc = "Utility Bill"; // Faking 'Utility Bill' as the missing required document.
 
-	return [
-		{
-			docName: missingDoc,
-			description:
-				"A required supporting document for the application is missing.",
-			missingFields: [],
-			isApplicableButton: false, // Cannot be 'Not applicable' as it's a required document type
-			chatMessages:
-				application.validationRules.find((rule) => rule.chatMessages)
-					?.chatMessages ?? [],
-		},
-	];
-			}
-	
-		default:
-						{
-	const missingDoc = "Medical Records"; 
+			return [
+				{
+					docName: missingDoc,
+					description:
+						"A required supporting document for the application is missing.",
+					missingFields: [],
+					isApplicableButton: false, // Cannot be 'Not applicable' as it's a required document type
+					chatMessages:
+						application.validationRules.find((rule) => rule.chatMessages)
+							?.chatMessages ?? [],
+				},
+			];
+		}
 
-	return [
-		{
-			docName: missingDoc,
-			description:
-				"A required supporting document for the application is missing.",
-			missingFields: [],
-			isApplicableButton: false, // Cannot be 'Not applicable' as it's a required document type
-			chatMessages:
-				application.validationRules.find((rule) => rule.chatMessages)
-					?.chatMessages ?? [],
-		},
-	];
-			}
+		case SupportedDocTypes.Claims: {
+			const missing = application.validationRules.filter((r) => r.missing);
+
+			return missing.map((rule) => {
+				return {
+					docName: rule.name,
+					description:
+						"A required supporting document for the application is missing.",
+					missingFields: [],
+					isApplicableButton: false, // Cannot be 'Not applicable' as it's a required document type
+					chatMessages: rule.chatMessages ?? [],
+				};
+			});
+		}
+
+		default: {
+			const missingDoc = "Medical Records";
+
+			return [
+				{
+					docName: missingDoc,
+					description:
+						"A required supporting document for the application is missing.",
+					missingFields: [],
+					isApplicableButton: false, // Cannot be 'Not applicable' as it's a required document type
+					chatMessages:
+						application.validationRules.find((rule) => rule.chatMessages)
+							?.chatMessages ?? [],
+				},
+			];
+		}
 	}
-
-	
 };
 
 export function InfoCompleteness() {
 	const docType = useDocType()!;
 
 	// Hardcoding values to match the screenshot and application context
-	const PRESENT_DOCS = docType === SupportedDocTypes.Commission?  33 : 5;
-	const TOTAL_DOCS = docType === SupportedDocTypes.Commission?  33 : 7;
+	const PRESENT_DOCS = docType === SupportedDocTypes.Commission ? 33 : 5;
+	const TOTAL_DOCS = docType === SupportedDocTypes.Commission ? 33 : 7;
 	const percentage = (PRESENT_DOCS / TOTAL_DOCS) * 100;
 
 	const CHART_DATA = [
@@ -322,16 +333,18 @@ export function InfoCompleteness() {
 			<AnimatePresence>
 				<div className="grid grid-cols-1 @[800px]:grid-cols-2 gap-4">
 					<motion.div {...ANIMATION_PROPS}>
-						<Card className="h-fit">
-							<CardHeader className="relative">
-								<CardDescription>
+						<Card className="h-fit @[800px]:h-full ">
+							<CardHeader className="flex flex-col relative">
+								<CardDescription className="relative">
 									Percentage of Information Present
 								</CardDescription>
-
-								<CardTitle className="text-2xl font-semibold tabular-nums">
-									{percentage.toFixed(0)}%
-								</CardTitle>
 							</CardHeader>
+
+							<CardContent className="flex-1 pb-0">
+								<CardTitle className="flex text-2xl font-semibold tabular-nums @[800px]:text-5xl @[800px]:h-full @[800px]:justify-center @[800px]:items-center">
+									<span>{percentage.toFixed(0)}%</span>
+								</CardTitle>
+							</CardContent>
 						</Card>
 					</motion.div>
 

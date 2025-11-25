@@ -62,7 +62,7 @@ export type ClaimFileFields = DeepNullable<
 			physician_license_no: string;
 			medical_facility: string;
 	  }
-			| {
+	| {
 			document_type: "broker_id";
 			full_name: string;
 			id_number: string;

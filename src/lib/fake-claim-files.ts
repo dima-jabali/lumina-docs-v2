@@ -40,7 +40,7 @@ export const FAKE_CLAIM_FILES: Array<
 			},
 		],
 	],
-		[
+	[
 		"BrokerID_MariaCruz.pdf",
 		{
 			document_type: "broker_id",

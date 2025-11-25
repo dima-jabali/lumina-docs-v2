@@ -124,6 +124,7 @@ export const documentTypeRuleOptions: RuleOption[] = Object.values(Fields).map(
 );
 
 export const ruleViewToFilterOptions: Record<RuleType, RuleOption[]> = {
+	[RuleType.CLAIM_TYPE]: documentTypeRuleOptions,
 	[RuleType.DOCUMENT_TYPE]: documentTypeRuleOptions,
 	[RuleType.TEXT]: textRuleOptions,
 	[RuleType.AMOUNT]: amountRuleOptions,

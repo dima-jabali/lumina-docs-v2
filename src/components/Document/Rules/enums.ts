@@ -2,6 +2,7 @@ export enum RuleType {
 	EMPLOYMENT_TYPE = "Employment Type",
 	DOCUMENT_TYPE = "Document Type",
 	VENDOR_NAME = "Vendor Name",
+	CLAIM_TYPE = "Claim Type",
 	TEXT = "Text",
 
 	AMOUNT = "Amount",

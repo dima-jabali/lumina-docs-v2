@@ -251,7 +251,7 @@ const globalStoreBase = create(
 						description: "Payslip must be current as of last 3 months",
 						type: "document",
 						conditionNotMet: "Ask for a payslip from last 3 months",
-							missing: false,
+						missing: false,
 					},
 
 					{
@@ -260,7 +260,7 @@ const globalStoreBase = create(
 						description: "All required documents must be submitted",
 						type: "application",
 						conditionNotMet: "Ask for all required documents",
-							missing: false,
+						missing: false,
 						chatMessages: [
 							{
 								sender: "bot",
@@ -321,7 +321,7 @@ const globalStoreBase = create(
 						description: "Employment letter must be recent",
 						type: "document",
 						conditionNotMet: "Ask for a recent employment letter",
-							missing: false,
+						missing: false,
 					},
 				],
 				createdAt: "2024-01-12",
@@ -344,7 +344,7 @@ const globalStoreBase = create(
 						type: "application",
 						conditionNotMet:
 							"Ask for missing Medical Records (Clinical Abstract & Lab Tests)",
-							missing: true,
+						missing: true,
 						chatMessages: [
 							{
 								sender: "bot",
@@ -394,7 +394,7 @@ const globalStoreBase = create(
 						type: "application",
 						conditionNotMet:
 							"Ask for clarification on payee name difference between ID and bank proof.",
-							missing: false,
+						missing: false,
 						chatMessages: [
 							{
 								sender: "bot",

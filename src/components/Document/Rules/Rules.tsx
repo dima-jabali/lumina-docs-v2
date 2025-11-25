@@ -32,44 +32,53 @@ export const RulesView: React.FC = () => {
 	const docType = useDocType();
 
 	const [rules, setRules] = useState<Array<Rule>>(
-		docType === SupportedDocTypes.Mortgage
+		docType === SupportedDocTypes.Claims
 			? [
 					{
-						value: ["local employee"],
+						value: ["medical"],
 						operator: RuleOperator.IS,
-						type: RuleType.EMPLOYMENT_TYPE,
+						type: RuleType.CLAIM_TYPE,
 						id: createUUID(),
 					},
 				]
-			: docType === SupportedDocTypes.Commission
+			: docType === SupportedDocTypes.Mortgage
 				? [
 						{
-							value: ["Contract"],
+							value: ["local employee"],
 							operator: RuleOperator.IS,
-							type: RuleType.DOCUMENT_TYPE,
-							id: createUUID(),
-						},
-						{
-							value: ["Commission"],
-							operator: RuleOperator.INCLUDE,
-							type: RuleType.TEXT,
+							type: RuleType.EMPLOYMENT_TYPE,
 							id: createUUID(),
 						},
 					]
-				: [
-						{
-							value: ["Lloyd Bowers"],
-							operator: RuleOperator.IS,
-							type: RuleType.VENDOR_NAME,
-							id: createUUID(),
-						},
-						{
-							value: ["4000"],
-							type: RuleType.AMOUNT,
-							id: createUUID(),
-							operator: RuleOperator.GT,
-						},
-					],
+				: docType === SupportedDocTypes.Commission
+					? [
+							{
+								value: ["Contract"],
+								operator: RuleOperator.IS,
+								type: RuleType.DOCUMENT_TYPE,
+								id: createUUID(),
+							},
+							{
+								value: ["Commission"],
+								operator: RuleOperator.INCLUDE,
+								type: RuleType.TEXT,
+								id: createUUID(),
+							},
+						]
+					: [
+							{
+								value: ["Lloyd Bowers"],
+								operator: RuleOperator.IS,
+								type: RuleType.VENDOR_NAME,
+								id: createUUID(),
+							},
+							{
+								value: ["4000"],
+								type: RuleType.AMOUNT,
+								id: createUUID(),
+								operator: RuleOperator.GT,
+							},
+						],
 	);
 
 	const commandInputRef = useRef<HTMLInputElement>(null);

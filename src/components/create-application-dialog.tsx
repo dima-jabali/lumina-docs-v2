@@ -65,7 +65,7 @@ export function CreateApplicationDialog({
 			{
 				id: Date.now().toString(),
 				name: "",
-			missing: false,
+				missing: false,
 				description: "",
 				type: "application",
 				conditionNotMet: "",
@@ -116,7 +116,7 @@ export function CreateApplicationDialog({
 				id: "1",
 				name: "",
 				description: "",
-			missing: false,
+				missing: false,
 				type: "application",
 				conditionNotMet: "",
 			},

@@ -34,17 +34,13 @@ export const ValidateMetadata: React.FC = () => {
 				>
 					<span
 						className="flex items-center gap-4 group"
-						data-error={
-							rule.missing
-						}
+						data-error={rule.missing}
 					>
-						{
-							!rule.missing ? (
-								<Check className="size-4 text-green-600" />
-							) : (
-								<AlertCircle className="size-4 text-red-800" />
-							)
-						}
+						{!rule.missing ? (
+							<Check className="size-4 text-green-600" />
+						) : (
+							<AlertCircle className="size-4 text-red-800" />
+						)}
 
 						<span className="group-data-[error=true]:text-red-800">
 							{rule.name}
@@ -54,16 +50,14 @@ export const ValidateMetadata: React.FC = () => {
 					<div className="flex flex-col items-start gap-2 text-sm text-muted-foreground">
 						<p>{rule.description}</p>
 
-						{
-							!rule.missing ? null : (
-								<button
-									className="flex flex-col gap-1 mt-2 p-2 rounded-md h-auto bg-green-300/30 border text-xs border-green-300 text-green-700 hover:bg-green-300/40 active:bg-green-300/60"
-									onClick={() => handleGoToEmailThread(rule)}
-								>
-									Email thread
-								</button>
-							)
-						}
+						{!rule.missing ? null : (
+							<button
+								className="flex flex-col gap-1 mt-2 p-2 rounded-md h-auto bg-green-300/30 border text-xs border-green-300 text-green-700 hover:bg-green-300/40 active:bg-green-300/60"
+								onClick={() => handleGoToEmailThread(rule)}
+							>
+								Email thread
+							</button>
+						)}
 					</div>
 				</li>
 			))}
