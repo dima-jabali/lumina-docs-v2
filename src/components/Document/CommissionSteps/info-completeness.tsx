@@ -252,7 +252,7 @@ const getMissingDocumentDetails = (
 		}
 
 		case SupportedDocTypes.Claims: {
-			const missing = application.validationRules.filter((r) => r.missing);
+			const missing = application.validationRules.filter((r) => r.missing && !r.name.includes("Consistency"));
 
 			return missing.map((rule) => {
 				return {

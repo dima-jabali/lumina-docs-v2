@@ -394,7 +394,7 @@ const globalStoreBase = create(
 						type: "application",
 						conditionNotMet:
 							"Ask for clarification on payee name difference between ID and bank proof.",
-						missing: false,
+						missing: true,
 						chatMessages: [
 							{
 								sender: "bot",
@@ -416,7 +416,7 @@ const globalStoreBase = create(
 								createdAt: createISODate(),
 								toggleText: "",
 								statusIndex: 0,
-								statuses: [{ status: "success" as const }],
+								statuses: [{ status: "hidden" as const }],
 								uuid: createMessageUuid(),
 								text: "Yes, that is the same person. 'Maria A. Santos' is my maiden name used on my ID. 'Maria Santos-Cruz' is my married name on the bank account. I have uploaded a copy of my Marriage Certificate for verification.",
 								type: "email",

@@ -62,12 +62,17 @@ export function MessageInput({
 				});
 
 				if (isLastMessage) {
+					const firstMsgUuid = emailThreadChatMessages[0]?.uuid;
 					const validationRules =
 						applicationList.find((a) => a.id === docType)?.validationRules ||
 						[];
 
 					const updatedValidationRules = validationRules.map((r) => {
-						return { ...r, missing: false };
+						if (r.chatMessages?.[0]?.uuid === firstMsgUuid) {
+							return { ...r, missing: false };
+						}
+
+						return r;
 					});
 
 					const updatedApplicationList = applicationList.map((a) => {
