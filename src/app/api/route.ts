@@ -121,7 +121,6 @@ export async function POST(req: NextRequest) {
 			region,
 		});
 
-		console.log({ file });
 
 		const fileBuffer = await file.arrayBuffer();
 		const buffer = Buffer.from(fileBuffer);
@@ -136,7 +135,6 @@ export async function POST(req: NextRequest) {
 			}),
 		);
 
-		console.log({ putObjectCommandResponse });
 
 		return NextResponse.json(
 			{ message: "File uploaded to AWS successfully" },

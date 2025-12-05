@@ -122,6 +122,8 @@ export function useSteps() {
 	const docType = globalStore.use.docType();
 	const org = useCurrentOrganization();
 
+	console.log({org, docType})
+
 	if (!org?.steps || !docType) {
 		console.log("no steps or org or docType", { org, docType });
 

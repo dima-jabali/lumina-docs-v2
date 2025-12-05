@@ -29,6 +29,8 @@ import { RequireApprovalView } from "./RequireApprovalView";
 import SpendApprovalCalculator from "./SpendApprovalCalculator";
 import { ValidateMetadata } from "./ValidateMetadata";
 import { InfoCompleteness } from "./CommissionSteps/info-completeness";
+import { ApplicationScorecard } from "./MortgageSteps/ApplicationScorecard";
+import { RegulatoryCompliance } from "./MortgageSteps/RegulatoryCompliance";
 
 export function CurrentStepDetails() {
 	const selectedSubFile = globalStore.use.selectedSubFile();
@@ -102,10 +104,13 @@ export function CurrentStepDetails() {
 				case 2:
 					return <InfoCompleteness />;
 
-				case 3:
-					return <ValidateMetadata />;
+									case 3:
+					return <ApplicationScorecard />;
 
 				case 4:
+					return <RegulatoryCompliance />;
+
+				case 5:
 					return <UnderwriterReview />;
 
 				default:

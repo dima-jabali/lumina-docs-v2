@@ -1,6 +1,6 @@
 "use client";
 
-import { memo } from "react";
+import { memo, useEffect, useLayoutEffect } from "react";
 import { titleCase } from "scule";
 
 import { globalStore, useDocType } from "@/contexts/luminaStore";
@@ -55,6 +55,28 @@ export const TypesOfDocsList: React.FC = memo(function TypesOfDocsList() {
 				: [],
 		});
 	};
+
+	useLayoutEffect(() => {
+				const dashboardList = (() => {
+			switch (currentDocType) {
+				case SupportedDocTypes.Mortgage:
+					return FAKE_MORTGAGE_DASHBOARD_CHARTS;
+
+				case SupportedDocTypes.Commission:
+					return FAKE_COMMISSION_DASHBOARD_CHARTS;
+
+				case SupportedDocTypes.Invoice:
+					return FAKE_INVOICE_DASHBOARD_CHARTS;
+
+				default:
+					return [];
+			}
+		})();
+
+		globalStore.setState({
+			dashboardList,
+		});
+	}, [])
 
 	return (
 		<Select onValueChange={handleChangeDocType} value={currentDocType || "all"}>

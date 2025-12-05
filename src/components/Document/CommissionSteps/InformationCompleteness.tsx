@@ -46,8 +46,6 @@ export function InformationCompleteness() {
 	const applicationList = globalStore.use.applicationList();
 	const documentTypes = globalStore.use.documentTypes();
 
-	console.log({ docType, applicationList, documentTypes });
-
 	return (
 		<>
 			<HandleShowChatMessagesWhenVisible />

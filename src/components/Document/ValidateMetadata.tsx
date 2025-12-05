@@ -20,8 +20,6 @@ export const ValidateMetadata: React.FC = () => {
 		});
 	}
 
-	console.log({ validationRules, docType });
-
 	return (
 		<ul
 			className="flex flex-col items-center gap-6"

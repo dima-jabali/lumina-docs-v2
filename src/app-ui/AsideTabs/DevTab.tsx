@@ -41,8 +41,6 @@ export function DevTab() {
 		const logoFile = data["put=org-logo"] as File | null;
 		const name = data["post=org-name"] as string | null;
 
-		console.log({ name, logoFile, data });
-
 		if (!logoFile) return;
 
 		const logo = await convertFileToBase64(logoFile);

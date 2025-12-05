@@ -1,6 +1,8 @@
 "use client";
 
 import type { ColumnFiltersState } from "@tanstack/react-table";
+import { create } from "zustand";
+import { subscribeWithSelector } from "zustand/middleware";
 import type { Tagged } from "type-fest";
 
 import type { ChartConfig } from "@/components/ui/chart";
@@ -22,8 +24,6 @@ import {
 	type Message,
 	type OrganizationUuid,
 } from "@/types/organization";
-import { create } from "zustand";
-import { subscribeWithSelector } from "zustand/middleware";
 import { createReactSelectors } from "./createZustandProvider";
 
 export type DashboardProjectUuid = Tagged<string, "DashboardProjectUuid">;

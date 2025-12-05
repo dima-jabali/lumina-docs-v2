@@ -406,8 +406,6 @@ function SubFileList({ fileMetadata }: { fileMetadata: Document }) {
 
 	const subFilesType = getSubFileType(docType);
 
-	console.log({ selectedSubFile, docType, subFilesType, fileMetadata });
-
 	function onTabChange(value: string) {
 		if (value === "file-list") {
 			globalStore.setState({ selectedSubFile: null });

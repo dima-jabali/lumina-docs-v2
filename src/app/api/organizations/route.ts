@@ -148,8 +148,6 @@ export async function POST(req: NextRequest) {
 			}),
 		);
 
-		console.log({ putObjectCommandResponse });
-
 		return NextResponse.json(
 			{ message: "File uploaded to AWS successfully" },
 			{ status: 200 },

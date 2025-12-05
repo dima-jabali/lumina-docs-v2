@@ -223,8 +223,6 @@ const getMissingDocumentDetails = (
 
 	const application = applicationList.find((app) => app.id === docType);
 
-	console.log({ application, docType });
-
 	if (!application) {
 		return [];
 	}
