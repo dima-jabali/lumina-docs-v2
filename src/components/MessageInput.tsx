@@ -15,7 +15,7 @@ import {
 } from "@/types/organization";
 import { globalStore, useDocType } from "@/contexts/luminaStore";
 
-export const LOAN_RISK_SUBSTRING = "mortgage loan risk";
+export const LOAN_RISK_SUBSTRING = "risk";
 export const AMOUNT_SUBSTRING = "amount";
 export const VOLUME_SUBSTRING = "volume";
 
