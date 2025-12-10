@@ -29,7 +29,7 @@ export function RegulatoryCompliance() {
 					className="flex flex-col items-center gap-4 relative"
 					{...ANIMATION_PROPS}
 				>
-					<div className="flex flex-col min-h-32 w-full gap-6 text-muted text-sm">
+					<div className="flex flex-col min-h-32 w-full gap-6 text- text-sm">
 						<fieldset>
 							<h3>
 								<span className="font-semibold">Compliance Overall Score:</span>{" "}
@@ -50,7 +50,7 @@ export function RegulatoryCompliance() {
 							<Input id="bank-name" defaultValue="Pacific Bank of Manila" />
 						</fieldset>
 
-						<div className="flex flex-col items-center gap-2 text-xs text-muted rounded-md border-none border-border-smooth/20 p-2 shadow-black/10 py-4">
+						<div className="flex flex-col items-center gap-2 text-xs text- rounded-md border-none border-border-smooth/20 p-2 shadow-black/10 py-4">
 							<h5 className="text-sm font-semibold">Summary Metrics</h5>
 
 							<ul className="flex flex-col gap-0 [&_span]:font-semibold">
@@ -79,7 +79,7 @@ export function RegulatoryCompliance() {
 
 								<table cellPadding="0" cellSpacing="0">
 									<thead className="rounded-md">
-										<tr className="bg-muted-strong text-muted rounded-md">
+										<tr className="bg--strong text- rounded-md">
 											<th className="font-semibold px-2 py-1 not-first:border-l border-border-white first:rounded-s last:rounded-e">
 												Document ID
 											</th>
@@ -92,7 +92,7 @@ export function RegulatoryCompliance() {
 										</tr>
 									</thead>
 
-									<tbody className="text-sm [&_td]:px-3 [&_td]:py-0.5 [&_tr]:rounded [&_tr]:even:bg-muted-strong/30">
+									<tbody className="text-sm [&_td]:px-3 [&_td]:py-0.5 [&_tr]:rounded [&_tr]:even:bg--strong/30">
 										<tr>
 											<td>LoanApp_001</td>
 											<td>Account Opening Form</td>
