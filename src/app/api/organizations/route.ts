@@ -9,12 +9,6 @@ import { NextRequest, NextResponse } from "next/server";
 const AWS_SECRET_ACCESS_KEY = process.env.BB_AWS_SECRET_ACCESS_KEY;
 const AWS_ACCESS_KEY_ID = process.env.BB_AWS_ACCESS_KEY_ID;
 
-export const config = {
-	api: {
-		bodyParser: false, // Disable default Next.js body parser
-	},
-};
-
 export type GetAwsFileResponse = {
 	fileBase64String: string;
 };

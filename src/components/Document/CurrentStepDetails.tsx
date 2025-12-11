@@ -105,10 +105,10 @@ export function CurrentStepDetails() {
 					return <InfoCompleteness />;
 
 									case 3:
+					return <ValidateMetadata />;
+					
+					case 4:
 					return <ApplicationScorecard />;
-
-				case 4:
-					return <RegulatoryCompliance />;
 
 				case 5:
 					return <UnderwriterReview />;
